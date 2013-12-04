@@ -298,10 +298,10 @@ static int create_image(int platform_mode)
 #else
 	restore_processor_state();
 #endif
-	if (!in_suspend) {
+	if (!in_suspend)
 		events_check_enabled = false;
-		platform_leave(platform_mode);
-	}
+
+	platform_leave(platform_mode);
 
  Power_up:
 	syscore_resume();
