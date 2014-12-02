@@ -142,3 +142,6 @@ obj-$(CONFIG_HYPERV)		+= hv/
 
 obj-$(CONFIG_PM_DEVFREQ)	+= devfreq/
 obj-$(CONFIG_GATOR_PERF)	+= gator/
+
+#sensor_class
+obj-$(CONFIG_SENSORS)		+= sensors/
