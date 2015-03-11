@@ -56,3 +56,4 @@ obj-$(CONFIG_SENSORS_AK8975)	+= akm8975.o
 obj-$(CONFIG_SUNXI_VIBRATOR)	+= sunxi-vibrator.o
 obj-$(CONFIG_SUNXI_BROM_READ)	+= sunxi_brom_read.o
 obj-$(CONFIG_AW_RF_PM)        += rf_pm/
+obj-$(CONFIG_UID_CPUTIME) += uid_cputime.o
