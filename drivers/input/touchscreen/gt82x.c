@@ -329,6 +329,7 @@ return��
 	Successful :1 fail:0
 *******************************************************/
 //Test i2c to check device. Before it SHUTDOWN port Must be low state 30ms or more.
+#ifdef CONFIG_HAS_EARLYSUSPEND
 static bool goodix_i2c_test(struct i2c_client * client)
 {
 	int ret, retry;
@@ -344,6 +345,7 @@ static bool goodix_i2c_test(struct i2c_client * client)
 
 	return ret==1 ? true : false;
 }
+#endif
 
 /*******************************************************
 Function:
@@ -562,6 +564,7 @@ static int goodix_ts_power(struct goodix_ts_data * ts, int on)
 		return ret;        
 	case 1:             
 		ctp_wakeup(0,100);
+#ifdef CONFIG_HAS_EARLYSUSPEND
 		if(STANDBY_WITH_POWER_OFF == standby_level){
 			ret = goodix_i2c_test(ts->client);
 			if(!ret){
@@ -575,6 +578,7 @@ static int goodix_ts_power(struct goodix_ts_data * ts, int on)
 			}
 			pr_info("===== goodix i2c test ok=======\n");
 		}
+#endif
 		ret = goodix_init_panel(ts);
 		if( ret != 1){
 			pr_err("init panel fail!\n");
