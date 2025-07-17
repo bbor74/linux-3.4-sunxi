@@ -555,4 +555,10 @@ config BLK_DEV_RBD
 
 	  If unsure, say N.
 
+config BLK_SUNXI_NAND
+	tristate "sunxi nand flash driver"
+	default y
+	help
+	  Say Y here if you want include sunxi nand flash driver
+
 endif # BLK_DEV
