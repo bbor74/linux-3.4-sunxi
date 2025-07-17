@@ -1058,6 +1058,7 @@ CONFIG_BLK_DEV_CRYPTOLOOP=y
 # CONFIG_ATA_OVER_ETH is not set
 # CONFIG_MG_DISK is not set
 # CONFIG_BLK_DEV_RBD is not set
+CONFIG_BLK_SUNXI_NAND=y
 
 #
 # Misc devices
