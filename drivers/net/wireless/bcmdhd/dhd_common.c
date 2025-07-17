@@ -52,7 +52,7 @@
 #include <wlfc_proto.h>
 #include <dhd_wlfc.h>
 #endif
-extern int wifi_pm_get_mod_type(void);
+extern int get_wifi_mod_type(void);
 
 #ifdef WLMEDIA_HTSF
 extern void htsf_update(struct dhd_info *dhd, void *data);
@@ -192,7 +192,7 @@ dhd_common_init(osl_t *osh)
 {
 	int select_type = 0;
 	//aw checkout which wifi had select
-	select_type = wifi_pm_get_mod_type();
+	select_type = get_wifi_mod_type();
 #ifdef CONFIG_BCMDHD_FW_PATH
 	//select ap6181/ap6210
 	if (select_type == 3 || select_type == 4) {
