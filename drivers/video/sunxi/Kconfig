@@ -67,4 +67,9 @@ config DISP2_SUNXI_DEBUG
   default n
   ---help---
 
+config FB_SUNXI_UMP
+  bool "Enable FB/UMP Integration"
+  depends on FB_SUNXI
+  default m
+
 endmenu
