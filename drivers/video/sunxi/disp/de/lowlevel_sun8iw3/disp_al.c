@@ -2096,6 +2096,13 @@ s32 disp_al_smbl_sync(u32 screen_id)
 	return IEP_Drc_Operation_In_Vblanking(screen_id);
 }
 
+s32 disp_al_smbl_tasklet(u32 screen_id)
+{
+	IEP_Drc_Tasklet(screen_id);
+
+	return 0;
+}
+
 s32 disp_al_smbl_update_backlight(u32 screen_id, u32 bl)
 {
 	return IEP_Drc_Update_Backlight(screen_id, bl);

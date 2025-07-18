@@ -256,6 +256,7 @@ s32 disp_al_smbl_set_window(u32 screen_id, disp_window *window);
 s32 disp_al_smbl_sync(u32 screen_id);
 s32 disp_al_smbl_update_backlight(u32 screen_id, u32 bl);
 s32 disp_al_smbl_get_backlight_dimming(u32 screen_id);
+s32 disp_al_smbl_tasklet(u32 screen_id);
 
 s32 disp_init_al(__disp_bsp_init_para * para);
 

@@ -82,6 +82,7 @@ s32 IEP_Drc_Init(u32 sel);
 s32 IEP_Drc_Exit(u32 sel);
 s32 IEP_Drc_Enable(u32 sel, u32 en);
 s32 IEP_Drc_Operation_In_Vblanking(u32 sel);
+s32 IEP_Drc_Tasklet(u32 sel);
 s32 IEP_Drc_Set_Reg_Base(u32 sel, u32 base);
 s32 IEP_Drc_Get_Reg_Base(u32 sel);
 s32 IEP_Drc_Set_Winodw(u32 sel, disp_window window);//full screen for default

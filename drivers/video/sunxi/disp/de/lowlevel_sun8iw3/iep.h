@@ -28,6 +28,7 @@ extern __s32 IEP_Drc_Init(__u32 sel);
 extern __s32 IEP_Drc_Exit(__u32 sel);
 extern __s32 IEP_Drc_Enable(__u32 sel, __u32 en);
 extern __s32 IEP_Drc_Operation_In_Vblanking(__u32 sel);
+extern __s32 IEP_Drc_Tasklet(u32 sel);
 extern __s32 IEP_Drc_Set_Reg_Base(__u32 sel, __u32 base);
 extern __s32 IEP_Drc_Get_Reg_Base(__u32 sel);
 extern __s32 IEP_Drc_Set_Winodw(__u32 sel, disp_window window);//full screen for default
