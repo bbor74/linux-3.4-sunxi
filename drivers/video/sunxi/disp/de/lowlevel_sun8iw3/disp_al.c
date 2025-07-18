@@ -502,6 +502,8 @@ s32 disp_al_lcd_cfg(u32 screen_id, disp_panel_para * panel)
 		al_priv->lcd_info.in_height = al_priv->lcd_info.out_height;
 		al_priv->lcd_info.in_csc = al_priv->lcd_info.out_csc;
 		al_priv->lcd_info.b_in_interlace = al_priv->lcd_info.b_out_interlace;
+		al_priv->lcd_info.time_per_line = panel->lcd_ht * 10 / panel->lcd_dclk_freq;//unit:0.1us
+
 #if defined(__LINUX_PLAT__)
 		spin_unlock_irqrestore(&al_data_lock, flags);
 	}
@@ -734,6 +736,40 @@ s32 disp_al_lcd_get_start_delay(u32 screen_id)
 	return 0;
 }
 
+s32 disp_al_lcd_check_time(u32 screen_id, u32 us)
+{
+	__disp_al_private_data *al_priv;
+	u32 cur_line = 0, start_delay = 0;
+	u32 avail_time = 0;//us
+	s32 ret = 0;
+
+	al_priv = disp_al_get_priv(screen_id);
+	if(NULL == al_priv)
+		return -1;
+
+	if(1 == al_priv->lcd_info.enabled) {
+		if(LCD_IF_DSI == al_priv->lcd_info.lcd_if) {
+			cur_line = dsi_get_cur_line(screen_id);
+			start_delay = dsi_get_start_delay(screen_id);
+		} else {
+			cur_line = tcon_get_cur_line(screen_id, al_priv->lcd_info.tcon_index);
+			start_delay = tcon_get_start_delay(screen_id, al_priv->lcd_info.tcon_index);
+		}
+		if(cur_line >= start_delay) {
+			ret = 1;
+		} else {
+			avail_time = (start_delay - cur_line) * al_priv->lcd_info.time_per_line / 10 - 10;//us
+			if(avail_time > us)
+				ret = 0;
+			else
+				ret = 1;
+
+		}
+		return ret;
+	}
+
+	return -1;
+}
 /***********************************************************
  *
  * disp_al_manager

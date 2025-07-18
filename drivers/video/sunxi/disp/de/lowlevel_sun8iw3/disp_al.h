@@ -56,6 +56,7 @@ typedef struct {
 
 	u32 lcd_if;
 	u32 tcon_index;//0:for panel; 1:for hdmi
+	u32 time_per_line;//unit:0.1us
 }__disp_al_lcd_info_t;
 
 typedef struct {
@@ -177,6 +178,7 @@ s32 disp_al_edp_init(u32 screen_id, u32 edp_rate);
 s32 disp_al_edp_cfg(u32 screen_id, disp_panel_para * panel);
 s32 disp_al_edp_disable_cfg(u32 screen_id);
 s32 disp_al_edp_int(__edp_irq_id_t edp_irq);
+s32 disp_al_lcd_check_time(u32 screen_id, u32 us);
 /***********************************************************
  *
  * disp_al_manager
