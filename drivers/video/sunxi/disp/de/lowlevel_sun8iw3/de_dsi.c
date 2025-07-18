@@ -1060,4 +1060,5 @@ EXPORT_SYMBOL(dsi_dcs_wr_2para);
 EXPORT_SYMBOL(dsi_dcs_wr_3para);
 EXPORT_SYMBOL(dsi_dcs_wr_4para);
 EXPORT_SYMBOL(dsi_dcs_wr_5para);
+EXPORT_SYMBOL(dsi_dcs_rd);
 #endif
