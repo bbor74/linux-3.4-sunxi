@@ -1,7 +1,7 @@
 #ifndef __DRV_DISPLAY_H__
 #define __DRV_DISPLAY_H__
 
-#if defined(CONFIG_ARCH_SUN8IW1P1) || defined(CONFIG_ARCH_SUN8IW3P1)
+#if defined(CONFIG_FB_SUNXI_LEGACY_MODULE) || defined(CONFIG_FB_SUNXI_LEGACY)
 #include "drv_display_legacy.h"
 #else
 
@@ -383,8 +383,8 @@ typedef enum
 
 typedef struct
 {
-	unsigned int          addr[3];    // frame buffer的内容地址，对于rgb类型，只有addr[0]有效
-	disp_size             size;//单位是pixel
+	unsigned int          addr[3];    // frame buffer\B5\C4\C4\DA\C8莸\D8址\A3\AC\B6\D4\D3\DArgb\C0\E0\D0停\AC只\D3\D0addr[0]\D3\D0效
+	disp_size             size;//\B5\A5位\CA\C7pixel
 	disp_pixel_format     format;
 	disp_cs_mode          cs_mode;    //color space
 	bool                  b_trd_src; //if 3d source, used for scaler mode layer
@@ -405,7 +405,7 @@ typedef struct
 {
     disp_layer_mode           mode;       //layer work mode
     unsigned char             pipe;       //layer pipe,0/1
-    unsigned char             zorder;     //layer priority,can get layer prio,but never set layer prio,从底至顶,优先级由低至高
+    unsigned char             zorder;     //layer priority,can get layer prio,but never set layer prio,\B4拥\D7\D6\C1\B6\A5,\D3\C5\CF燃\B6\D3傻\CD\D6\C1\B8\DF
     unsigned char             alpha_mode;   //0: pixel alpha;  1: global alpha;  2: global pixel alpha
     unsigned char             alpha_value;  //layer global alpha value
     bool                      ck_enable;  //layer color key enable

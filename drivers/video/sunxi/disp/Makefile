@@ -29,3 +29,23 @@ disp-objs :=  dev_disp.o dev_fb.o dev_disp_attrnode.o dev_capture.o dev_composer
 							de/disp_smart_backlight.o de/disp_capture.o de/disp_smart_color.o\
 
 endif
+
+ifneq ($(strip $(CONFIG_ARCH_SUN8IW3)),)
+
+obj-$(CONFIG_FB_SUNXI) += disp.o
+
+disp-objs :=  dev_disp.o dev_fb.o dev_disp_attrnode.o dev_capture.o dev_composer.o\
+							OSAL/OSAL_Cache.o OSAL/OSAL_Clock.o OSAL/OSAL_Dma.o OSAL/OSAL_Int.o OSAL/OSAL_IrqLock.o  OSAL/OSAL_Pwm.o OSAL/OSAL_Power.o \
+							OSAL/OSAL_Lib_C.o OSAL/OSAL_Pin.o OSAL/OSAL_Semi.o OSAL/OSAL_Thread.o OSAL/OSAL_Time.o OSAL/OSAL_Parser.o\
+							de/lowlevel_sun8iw3/de_be.o de/lowlevel_sun8iw3/de_fe.o de/lowlevel_sun8iw3/iep_cmu.o de/lowlevel_sun8iw3/iep_drc_ebios.o de/lowlevel_sun8iw3/iep_wb_ebios.o\
+							de/lowlevel_sun8iw3/iep_drc.o de/lowlevel_sun8iw3/de_layer.o de/lowlevel_sun8iw3/de_dsi.o de/lowlevel_sun8iw3/de_lcd.o \
+							de/disp_private.o de/disp_features.o de/lowlevel_sun8iw3/disp_al.o de/lowlevel_sun8iw3/de_clock.o\
+							de/disp_display.o de/disp_private.o de/disp_features.o de/disp_lcd.o de/disp_layer.o de/disp_manager.o\
+							de/disp_smart_backlight.o de/disp_capture.o de/disp_smart_color.o\
+
+endif
+
+ifeq ($(CONFIG_FB_SUNXI_UMP),y)
+obj-m += disp_ump.o
+ccflags-y += -Imali/driver/src/ump/include
+endif

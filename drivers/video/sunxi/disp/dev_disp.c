@@ -84,6 +84,21 @@ static struct sunxi_disp_mod disp_mod[] = {
 	{DISP_MOD_WB0      ,    "wb0"},
 	{DISP_MOD_SAT0     ,    "sat0"},
 };
+#elif defined(CONFIG_ARCH_SUN8IW3P1)
+static struct sunxi_disp_mod disp_mod[] = {
+	{DISP_MOD_FE0      ,    "fe0"},
+	{DISP_MOD_BE0      ,    "be0"},
+	{DISP_MOD_LCD0     ,    "lcd0"},
+	{DISP_MOD_CCMU     ,    "ccmu"},
+	{DISP_MOD_PIOC     ,    "pioc"},
+	{DISP_MOD_PWM      ,    "pwm"},
+	{DISP_MOD_CMU0     ,    "cmu0"},
+	{DISP_MOD_DRC0     ,    "drc0"},
+	{DISP_MOD_DSI0     ,    "dsi0"},
+	{DISP_MOD_DSI0_DPHY,    "dsi0_dphy"},
+	{DISP_MOD_WB0      ,    "wb0"},
+	{DISP_MOD_SAT0     ,    "sat0"},
+};
 #endif
 #if defined CONFIG_ARCH_SUN8IW1P1
 static struct resource disp_resource[] =
@@ -122,6 +137,7 @@ static struct resource disp_resource[] =
 	DISP_RESOURCE(dsi0, SUNXI_IRQ_MIPIDSI , 0, IORESOURCE_IRQ)
 };
 #elif defined(CONFIG_ARCH_SUN8IW3P1)
+
 static struct resource disp_resource[] =
 {
 	/*            name          start                        end                                 flags    */

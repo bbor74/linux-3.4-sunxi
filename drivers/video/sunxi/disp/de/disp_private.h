@@ -531,6 +531,8 @@ s32 disp_notifier_call_chain(u32 event, u32 sel, void *v);
 #include "./lowlevel_sun8iw5/disp_al.h"
 #elif defined (CONFIG_ARCH_SUN9IW1P1)
 #include "./lowlevel_sun9iw1/disp_al.h"
+#elif defined (CONFIG_ARCH_SUN8IW3P1)
+#include "./lowlevel_sun8iw3/disp_al.h"
 #endif
 
 #include "disp_lcd.h"

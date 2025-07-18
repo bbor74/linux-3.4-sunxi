@@ -28,6 +28,8 @@
 #include "../de/lowlevel_sun8iw5/de_clock.h"
 #elif defined (CONFIG_ARCH_SUN9IW1P1)
 #include "../de/lowlevel_sun9iw1/de_clock.h"
+#elif defined (CONFIG_ARCH_SUN8IW3P1)
+#include "../de/lowlevel_sun8iw3/de_clock.h"
 #endif
 
 #define CLK_ON 1
