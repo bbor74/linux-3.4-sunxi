@@ -18,7 +18,7 @@
 
 #ifdef CONFIG_SW_POWERNOW
 #include <mach/powernow.h>
-#include <mach/includes.h>
+//#include <mach/includes.h>
 #endif
 
 static int mali_clk_div                  = 1;
