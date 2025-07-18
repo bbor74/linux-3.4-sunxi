@@ -45,7 +45,7 @@ disp-objs :=  dev_disp.o dev_fb.o dev_disp_attrnode.o dev_capture.o dev_composer
 
 endif
 
-ifeq ($(CONFIG_FB_SUNXI_UMP),y)
-obj-m += disp_ump.o
-ccflags-y += -Imali/driver/src/ump/include
-endif
+#ifeq ($(CONFIG_FB_SUNXI_UMP),y)
+#obj-m += disp_ump.o
+#ccflags-y += -Imali/driver/src/ump/include
+#endif
