@@ -5,7 +5,7 @@ MALI_PLATFORM_FILE:=platform/${CONFIG}/mali_platform.c
 export MALI_PLATFORM_FILE
 
 USING_MMU:=1
-USING_UMP:=1
+USING_UMP:=0
 USING_PMM:=1
 BUILD:=release
 TARGET_PLATFORM:=mali400-pmu
@@ -15,4 +15,4 @@ export USING_PROFILING
 endif
 export CONFIG USING_MMU USING_UMP USING_PMM BUILD TARGET_PLATFORM
 
-obj-$(CONFIG_MALI) += ump/ mali/
+obj-$(CONFIG_MALI) += mali/

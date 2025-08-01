@@ -63,7 +63,7 @@ ifeq ($(KDIR),)
 $(error No KDIR found for platform $(TARGET_PLATFORM))
 endif
 
-USING_UMP ?= 1
+# USING_UMP ?= 1
 
 
 ifeq ($(USING_UMP),1)
