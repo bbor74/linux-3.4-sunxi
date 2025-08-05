@@ -4,7 +4,7 @@ obj-$(CONFIG_CSI_VFE) += device/
 obj-$(CONFIG_CSI_VFE) += actuator/
 obj-$(CONFIG_CSI_VFE) += csi_cci/
 #obj-$(CONFIG_CSI_VFE) += flash_light/
-#obj-$(CONFIG_CSI_VFE) += camera_detector/
+obj-$(CONFIG_CSI_VFE) += camera_detector/
 
 obj-$(CONFIG_CSI_VFE) += vfe_v4l2.o
 vfe_v4l2-y					:= csi/csi_reg.o
