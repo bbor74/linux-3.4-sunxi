@@ -40,6 +40,13 @@ static void rtc_device_release(struct device *dev)
 
 static struct timespec old_rtc, old_system, old_delta;
 
+#ifdef CONFIG_SUSPEND_TIME
+extern int suspend_time_suspend(struct rtc_time before);
+extern int suspend_time_resume(struct rtc_time after);
+#else
+#define suspend_time_suspend(t)	do { } while (0)
+#define suspend_time_resume(t)	do { } while (0)
+#endif
 
 static int rtc_suspend(struct device *dev, pm_message_t mesg)
 {
@@ -53,7 +60,7 @@ static int rtc_suspend(struct device *dev, pm_message_t mesg)
 	rtc_read_time(rtc, &tm);
 	getnstimeofday(&old_system);
 	rtc_tm_to_time(&tm, &old_rtc.tv_sec);
-
+	suspend_time_suspend(tm);
 
 	/*
 	 * To avoid drift caused by repeated suspend/resumes,
@@ -117,6 +124,9 @@ static int rtc_resume(struct device *dev)
 
 	if (sleep_time.tv_sec >= 0)
 		timekeeping_inject_sleeptime(&sleep_time);
+
+	suspend_time_resume(tm);
+
 	return 0;
 }
 
