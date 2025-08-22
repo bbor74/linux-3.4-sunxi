@@ -119,13 +119,13 @@ void suspend_time_resume(struct rtc_time suspend_time_after)
 
 
 	tm = suspend_time_before;
-	pr_debug("Suspend @ %d-%02d-%02d %02d:%02d:%02d Shanghai\n",
+	pr_debug("Suspend @ %d-%02d-%02d %02d:%02d:%02d UTC\n",
 		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-		(tm.tm_hour + 8) % 24, tm.tm_min, tm.tm_sec);
+		(tm.tm_hour + 0) % 24, tm.tm_min, tm.tm_sec);
 	tm = suspend_time_after;
-	pr_debug("Resume @ %d-%02d-%02d %02d:%02d:%02d Shanghai\n",
+	pr_debug("Resume @ %d-%02d-%02d %02d:%02d:%02d UTC\n",
 		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-		(tm.tm_hour + 8) % 24, tm.tm_min, tm.tm_sec);
+		(tm.tm_hour + 0) % 24, tm.tm_min, tm.tm_sec);
 
 	before.tv_nsec = NSEC_PER_SEC >> 1;
 	after.tv_nsec = NSEC_PER_SEC >> 1;
