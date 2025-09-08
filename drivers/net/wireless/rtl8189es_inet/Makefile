@@ -62,7 +62,7 @@ CONFIG_BR_EXT = y
 CONFIG_ANTENNA_DIVERSITY = n
 ######################## Wake On Lan ##########################
 CONFIG_WOWLAN = y
-CONFIG_GPIO_WAKEUP = y
+CONFIG_GPIO_WAKEUP = n
 CONFIG_WAKEUP_GPIO_IDX = default
 CONFIG_PNO_SUPPORT = n
 CONFIG_PNO_SET_DEBUG = n
