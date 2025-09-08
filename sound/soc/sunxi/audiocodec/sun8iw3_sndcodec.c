@@ -412,7 +412,7 @@ static void codec_init(void)
 	codec_wr_control(SUNXI_DAC_FIFOC, 0x1, DAC_FIFO_FLUSH, 0x1);
 	/*write 1 to flush rx fifo*/
 	codec_wr_control(SUNXI_ADC_FIFOC, 0x1, ADC_FIFO_FLUSH, 0x1);
-	codec_wr_control(SUNXI_DAC_FIFOC, 0x1, FIR_VERSION, 0x1);
+	//codec_wr_control(SUNXI_DAC_FIFOC, 0x1, FIR_VERSION, 0x1);
 }
 
 /*
@@ -427,7 +427,11 @@ static int codec_pa_play_open(void)
 	codec_wr_control(SUNXI_DAC_DPC, 0x1, DAC_EN, 0x1);
 	codec_wr_prcm_control(HP_VOLC, 0x1, PA_CLK_GC, 0x0);
 
-	codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, LTRNMUTE, 0x1);
+	if (pa_double_used) {
+		codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, LTRNMUTE, 0x0);
+	} else {
+		codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, LTRNMUTE, 0x1);
+	}
 	//by xzd only right negative left
 	codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, RTLNMUTE, 0x0);
 
@@ -453,17 +457,30 @@ static int codec_pa_play_open(void)
 //	}
 //
 	 codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPIS, 0x1);
-	 codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x0);
+	if (pa_double_used) {
+	 	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x1);
+	} else {
+	 	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x0);
+	}
 
 	codec_wr_prcm_control(DAC_PA_SRC, 0x1, LMIXEN, 0x1);
 	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RMIXEN, 0x1);
-    //by xzd left select dacl&dacr
-	codec_wr_prcm_control(ROMIXSC, 0x7f, RMIXMUTE, 0x0);
-	//by xzd right don't select src
-	codec_wr_prcm_control(LOMIXSC, 0x7f, LMIXMUTE, 0x3);
 
-	codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPPAMUTE, 0x1);
-	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x0);
+	if (pa_double_used) {
+		codec_wr_prcm_control(ROMIXSC, 0x7f, RMIXMUTE, 0x2);
+		codec_wr_prcm_control(LOMIXSC, 0x7f, LMIXMUTE, 0x2);
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPPAMUTE, 0x1);
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x1);
+	} else {
+		//by xzd left select dacl&dacr
+		codec_wr_prcm_control(ROMIXSC, 0x7f, RMIXMUTE, 0x0);
+		//by xzd right don't select src
+		codec_wr_prcm_control(LOMIXSC, 0x7f, LMIXMUTE, 0x3);
+
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPPAMUTE, 0x1);
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x0);
+ 	}
+
 	reg_val = read_prcm_wvalue(HP_VOLC);
 	reg_val &= 0x3f;
 	if (!reg_val) {
@@ -626,7 +643,11 @@ static int codec_pa_and_headset_play_open(void)
 	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x0);
 
 	codec_wr_prcm_control(HP_VOLC, 0x1, PA_CLK_GC, 0x0);
-	codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, LTRNMUTE, 0x1);
+	if (pa_double_used) {
+		codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, LTRNMUTE, 0x0);
+        } else {
+		codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, LTRNMUTE, 0x1);
+	}
 	codec_wr_prcm_control(PAEN_HP_CTRL, 0x1, RTLNMUTE, 0x0);
 
 	/*set TX FIFO send drq level*/
@@ -653,16 +674,30 @@ static int codec_pa_and_headset_play_open(void)
 //	codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPIS, 0x0);
 //	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x0);
 
-	 codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPIS, 0x1);
-	 codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x0);
+	codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPIS, 0x1);
+
+	if (pa_double_used) {
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x1);
+	} else {
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x0);
+	}
 
 	codec_wr_prcm_control(DAC_PA_SRC, 0x1, LMIXEN, 0x1);
+        codec_wr_prcm_control(DAC_PA_SRC, 0x1, RMIXEN, 0x1);
 
-	codec_wr_prcm_control(ROMIXSC, 0x7f, RMIXMUTE, 0x0);
-	codec_wr_prcm_control(LOMIXSC, 0x7f, LMIXMUTE, 0x3);
+	if (pa_double_used) {
+		codec_wr_prcm_control(ROMIXSC, 0x7f, RMIXMUTE, 0x2);
+		codec_wr_prcm_control(LOMIXSC, 0x7f, LMIXMUTE, 0x2);
 
-	codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPPAMUTE, 0x1);
-	codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x0);
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPPAMUTE, 0x1);
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x1);
+	} else {
+		codec_wr_prcm_control(ROMIXSC, 0x7f, RMIXMUTE, 0x0);
+		codec_wr_prcm_control(LOMIXSC, 0x7f, LMIXMUTE, 0x3);
+
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, LHPPAMUTE, 0x1);
+		codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPPAMUTE, 0x0);
+	}
 	reg_val = read_prcm_wvalue(HP_VOLC);
 	reg_val &= 0x3f;
 	if (!reg_val) {
@@ -681,7 +716,6 @@ static int codec_pa_and_headset_play_open(void)
 	usleep_range(2000, 3000);
 	gpio_set_value(item.gpio.gpio, 1);
 	msleep(62);
-
 
 	return 0;
 }
@@ -1072,7 +1106,7 @@ static int codec_set_speakerout(struct snd_kcontrol *kcontrol,
 		//codec_wr_prcm_control(DAC_PA_SRC, 0x1, RHPIS, 0x0);
 		codec_wr_prcm_control(PAEN_HP_CTRL, 0x3, HPCOM_FC, 0x0);
 		codec_wr_prcm_control(ADDA_APT2, 0x1, ZERO_CROSS_EN, 0x0);
-		codec_wr_prcm_control(HP_VOLC, 0x3f, HPVOL, 0x0);
+	//	codec_wr_prcm_control(HP_VOLC, 0x3f, HPVOL, 0x0);
 
 	//codec_wr_prcm_control(MIC2G_LINEEN_CTRL, 0x1, LINEOUTR_EN, 0x1);
 	//codec_wr_prcm_control(MIC2G_LINEEN_CTRL, 0x1, LINEOUTL_EN, 0x1);
@@ -2453,7 +2487,7 @@ static int sndpcm_resume(struct snd_soc_codec *codec)
 		codec_wr_control(SUNXI_ADC_FIFOC, 0x1, ADC_FIFO_FLUSH, 0x1);
 	}
 
-	codec_wr_control(SUNXI_DAC_FIFOC, 0x1, FIR_VERSION, 0x1);
+	//codec_wr_control(SUNXI_DAC_FIFOC, 0x1, FIR_VERSION, 0x1);
 
 	pr_debug("[audio codec]:resume end\n");
 	return 0;
