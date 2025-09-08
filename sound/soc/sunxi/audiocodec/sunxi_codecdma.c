@@ -111,16 +111,16 @@ static int sunxi_pcm_hw_params(struct snd_pcm_substream *substream,
 		return ret;
 	}
 
-#if defined USED_SRAM_ADDR
+//#if defined USED_SRAM_ADDR
 /*for a23*/
 #if defined CONFIG_ARCH_SUN8IW3
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-		substream->dma_buffer.addr = 0x00002000;
-		substream->dma_buffer.area = 0xf0002000;
-		memset(0xf0002000, 0, 0x4000-0x00002000);
+		substream->dma_buffer.addr = 0x00001560;//0x00002000;
+		substream->dma_buffer.area = 0xf0001560;//0xf0002000;  1580 ok
+		memset(0xf0001560, 0, 0x4000-0x00001560);
 	}
 #endif
-#endif
+//#endif
 /*for a33*/
 #if defined CONFIG_ARCH_SUN8IW5
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
