@@ -1815,6 +1815,10 @@ void sd_int_dpc(PADAPTER padapter)
 	
 }
 
+#ifndef DBG_SD_INT_HISR_HIMR
+#define DBG_SD_INT_HISR_HIMR 0
+#endif
+
 void sd_int_hdl(PADAPTER padapter)
 {
 	u8 data[6];
@@ -1830,6 +1834,14 @@ void sd_int_hdl(PADAPTER padapter)
 	if (pHalData->sdio_hisr & pHalData->sdio_himr)
 	{
 		u32 v32;
+		#if DBG_SD_INT_HISR_HIMR
+		static u32 match_cnt = 0;
+
+		if ((match_cnt++) % 1000 == 0)
+		RT_TRACE(_module_hci_ops_c_, _drv_err_,
+				("%s: HISR(0x%08x) and HIMR(0x%08x) match!\n",
+				 __FUNCTION__, pHalData->sdio_hisr, pHalData->sdio_himr));
+		#endif
 
 		pHalData->sdio_hisr &= pHalData->sdio_himr;
 
@@ -1843,13 +1855,14 @@ void sd_int_hdl(PADAPTER padapter)
 		sd_int_dpc(padapter);
 		
 	} 
+	#if DBG_SD_INT_HISR_HIMR
 	else 
 	{
 		RT_TRACE(_module_hci_ops_c_, _drv_err_,
 				("%s: HISR(0x%08x) and HIMR(0x%08x) not match!\n",
 				__FUNCTION__, pHalData->sdio_hisr, pHalData->sdio_himr));
 	}
-	
+	#endif
 }
 
 //
