@@ -6,6 +6,10 @@ obj-$(CONFIG_FB_SUNXI)     += disp/
 obj-$(CONFIG_LCD_SUNXI)    += lcd/
 obj-$(CONFIG_HDMI_SUNXI)   += hdmi/
 
+obj-$(CONFIG_FB_SUNXI_LEGACY)     += legacy/disp/
+obj-$(CONFIG_LCD_SUNXI_LEGACY)    += legacy/lcd/
+obj-$(CONFIG_HDMI_SUNXI_LEGACY)   += legacy/hdmi/
+
 obj-$(CONFIG_DISP2_SUNXI) += disp2/disp/
 obj-$(CONFIG_HDMI_DISP2_SUNXI) += disp2/hdmi/
 obj-$(CONFIG_DISP2_SUNXI) += disp2/tv/

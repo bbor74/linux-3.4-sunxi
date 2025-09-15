@@ -543,7 +543,7 @@ typedef struct
 
 		__u32           cur_buffer_id;  //no need to care about it
 		__u32           capture_request;
-		__s32           scaler_id;
+		__u32           scaler_id;
 		__u32           got_frame;
 }__disp_capture_screen_para_t;
 
@@ -810,6 +810,11 @@ typedef struct
     __disp_rect_t       fb_scn_win;
 
     int                 primary_display_layer_num;
+    int                 show_black[2];
+    int                 time_stamp;
+
+   int                 acquireFenceFd[8];
+   struct sync_fence       *acquireFence[8];
 }setup_dispc_data_t;
 
 typedef enum tag_DISP_CMD
@@ -935,7 +940,7 @@ typedef enum tag_DISP_CMD
     DISP_CMD_HWC_GET_POS = 0xc3,
     DISP_CMD_HWC_SET_FB = 0xc4,
     DISP_CMD_HWC_SET_PALETTE_TABLE = 0xc5,
-
+	DISP_CMD_HWC_COMMIT = 0xc6,
 //----video----
     DISP_CMD_VIDEO_START = 0x100,
     DISP_CMD_VIDEO_STOP = 0x101,
