@@ -43,6 +43,20 @@ config LCD_SUNXI_LEGACY
   default m
   ---help---
 
+config LCD_SUNXI_LEGACY_SET_PWM_POLARITY
+  bool "Set LCD backlight PWM polarity(sunxi-legacy)"
+  depends on ((ARCH_SUN8IW1P1 || ARCH_SUN8IW3P1) && LCD_SUNXI_LEGACY)
+  default n
+  ---help---
+          if not defined use value from sys_config.fex
+
+config LCD_SUNXI_LEGACY_PWM_POLARITY
+  int "LCD backlight PWM polarity(sunxi-legacy) value (0-1)"
+  range 0 1
+  default 0
+  depends on LCD_SUNXI_LEGACY_SET_PWM_POLARITY
+  ---help---
+
 config HDMI_SUNXI_LEGACY
   tristate "HDMI Driver Support(sunxi-legacy)"
   depends on ((ARCH_SUN8IW1P1 || ARCH_SUN8IW3P1) && FB_SUNXI_LEGACY)

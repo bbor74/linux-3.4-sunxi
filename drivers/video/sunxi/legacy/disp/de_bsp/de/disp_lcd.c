@@ -294,7 +294,11 @@ __s32 LCD_parse_panel_para(__u32 screen_id, __panel_para_t * info)
     ret = OSAL_Script_FetchParser_Data(primary_key, "lcd_pwm_pol", &value, 1);
     if(ret == 0)
     {
+#ifdef CONFIG_LCD_SUNXI_LEGACY_SET_PWM_POLARITY
+        value = CONFIG_LCD_SUNXI_LEGACY_PWM_POLARITY;
+#endif
         info->lcd_pwm_pol = value;
+        printk("lcd_pwm_pol: %d ", value);
     }
 
     ret = OSAL_Script_FetchParser_Data(primary_key, "lcd_if", &value, 1);
