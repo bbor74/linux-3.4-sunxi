@@ -1106,7 +1106,7 @@ CONFIG_SUNXI_BROM_READ=y
 #
 # CONFIG_ALTERA_STAPL is not set
 # CONFIG_SW_3G_MODULE is not set
-CONFIG_AW_RF_PM=y
+# CONFIG_AW_RF_PM is not set
 
 #
 # SCSI device support
