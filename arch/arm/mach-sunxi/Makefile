@@ -9,6 +9,7 @@ endif
 ifneq ($(strip $(CONFIG_ARCH_SUN8I)),)
 obj-y += sun8i.o
 obj-$(CONFIG_SW_POWERNOW) += powernow.o
+obj-$(CONFIG_NET)       += rf/
 endif
 
 ifneq ($(strip $(CONFIG_ARCH_SUN8IW9)),)
