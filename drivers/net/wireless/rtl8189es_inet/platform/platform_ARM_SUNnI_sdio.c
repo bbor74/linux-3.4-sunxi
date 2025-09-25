@@ -81,7 +81,8 @@ DBG_871X_LEVEL(_drv_always_, "=================power on ===========\n");
 	type = script_get_item("wifi_para", "wl_reg_on", &val);
 #endif
 #ifdef CONFIG_RTL8188E
-	type = script_get_item("wifi_para", "wl_host_wake", &val);
+//	type = script_get_item("wifi_para", "wl_host_wake", &val);
+	type = script_get_item("wifi_para", "rtl8189es_host_wake", &val);
 #endif
 	if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
 		DBG_871X("No definition of wake up host PIN\n");
