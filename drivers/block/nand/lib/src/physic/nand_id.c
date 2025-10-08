@@ -290,7 +290,7 @@ struct __NandPhyInfoPar_t SamsungNandTbl[] =
     { {0xec, 0xd7, 0x94, 0x7E, 0x64, 0xc4, 0xff, 0xff }, 1,    16,     128,     4096,   0x20000588,   896,    60,     4,   0x200e04,     3,     &PhysicArchiPara3, &DefDDRInfo,  0x00001f ,3500},   // toogle nand 2.0 K9GBGD8U0B
     { {0xec, 0xd7, 0x94, 0x7e, 0x64, 0x44, 0xff, 0xff }, 1,    16,     128,     4096,   0x00011188,   896,    40,     4,   0x200e04,     0,     &PhysicArchiPara3, &DefDDRInfo,  0x000020 ,3500},   // 21nm sdr K9GBG08U0B
     { {0xec, 0xde, 0xd5, 0x7e, 0x68, 0x44, 0xff, 0xff }, 2,    16,     128,     4096,   0x00011188,   896,    40,     4,   0x200e04,     0,     &PhysicArchiPara3, &DefDDRInfo,  0x000021 ,3500},   // 21nm sdr K9LCG08U0B
-    { {0xec, 0xd7, 0x14, 0x76, 0x54, 0xc2, 0xff, 0xff }, 1,    16,     128,     4096,   0x20011088,   896,    30,     3,       0,        3,     &PhysicArchiPara3, &DefDDRInfo,  0x000022 ,4000},   // K9GBGD8U0M
+    { {0xec, 0xd7, 0x14, 0x76, 0x54, 0xc2, 0xff, 0xff }, 1,    16,     128,     4096,   0x20011080,   896,    30,     3,       0,        3,     &PhysicArchiPara3, &DefDDRInfo,  0x000022 ,4000},   // K9GBGD8U0M
     { {0xec, 0xda, 0x10, 0x95, 0x44, 0xff, 0xff, 0xff }, 1,     4,      64,     2048,     0x000088,   896,    25,     0,       0,        0,     &PhysicArchiPara10,&DefDDRInfo,  0x000023 ,20000},   // K9F2G08U0C 
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x00000000,     0,     0,     0,       0,        0,             0,              0,       0xffffff },   // NULL
