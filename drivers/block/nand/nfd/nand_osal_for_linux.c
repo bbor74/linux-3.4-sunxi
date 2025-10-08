@@ -1055,9 +1055,12 @@ __u32 NAND_GetNdfcVersion(void)
 
 __u32 NAND_GetNdfcDmaMode(void)
 {
-
-	return 1; //idma
-
+	writel(BIT(15), IO_ADDRESS(0x01c00024));
+	if ( (readl(IO_ADDRESS(0x01c00024))>>16) == MAGIC0) {
+		return 0; //gdma
+	} else {
+		return 1; //idma
+	}
 }
 
 __u32 NAND_GetMaxChannelCnt(void)
@@ -1067,7 +1070,7 @@ __u32 NAND_GetMaxChannelCnt(void)
 
 __u32 NAND_GetPlatform(void)
 {
-	return 33;
+	return 23;
 }
 
 DEFINE_SEMAPHORE(nand_physic_mutex);
@@ -1306,7 +1309,7 @@ void NAND_Print_Version(void)
 
 int NAND_get_storagetype(void)
 {
-#if 0
+#if 1
     script_item_value_type_e script_ret;
     script_item_u storage_type;
 
