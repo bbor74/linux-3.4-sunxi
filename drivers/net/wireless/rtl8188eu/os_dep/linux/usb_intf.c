@@ -1360,8 +1360,8 @@ static int usb_wifi_host = 2;
 #include <mach/sys_config.h>
 extern int sunxi_usb_disable_hcd(__u32 usbc_no);
 extern int sunxi_usb_enable_hcd(__u32 usbc_no);
-//extern void wifi_pm_power(int on);
-//static script_item_u item;
+extern void wifi_pm_power(int on);
+static script_item_u item;
 #endif
 
 /*
@@ -1904,18 +1904,18 @@ static int __init rtw_drv_entry(void)
 #endif //CONFIG_PLATFORM_ARM_SUNxI
 
 #ifdef CONFIG_PLATFORM_ARM_SUN8I
-	//script_item_value_type_e type;
+	script_item_value_type_e type;
 
-	//type = script_get_item("wifi_para", "wifi_usbc_id", &item);
-	//if(SCIRPT_ITEM_VALUE_TYPE_INT != type){
-	//	printk("ERR: script_get_item wifi_usbc_id failed\n");
-	//	return -ENOMEM;
-	//}
+	type = script_get_item("wifi_para", "wifi_usbc_id", &item);
+	if(SCIRPT_ITEM_VALUE_TYPE_INT != type){
+		printk("ERR: script_get_item wifi_usbc_id failed\n");
+		return -ENOMEM;
+	}
 
 	printk("sunxi_usb_enable_hcd: usbc_num = %d\n", 0);
-	//wifi_pm_power(1);
-	//mdelay(10);
-	sunxi_usb_enable_hcd(0);
+	wifi_pm_power(1);
+	mdelay(10);
+	sunxi_usb_enable_hcd(item.val);
 #endif //CONFIG_PLATFORM_ARM_SUN8I
 
 	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+rtw_drv_entry\n"));
@@ -1951,8 +1951,8 @@ static void __exit rtw_drv_halt(void)
 #endif	//CONFIG_PLATFORM_ARM_SUNxI
 
 #ifdef CONFIG_PLATFORM_ARM_SUN8I
-	sunxi_usb_disable_hcd(0);
-	//wifi_pm_power(0);
+	sunxi_usb_disable_hcd(item.val);
+	wifi_pm_power(0);
 #endif
 
 	DBG_871X("-rtw_drv_halt\n");
