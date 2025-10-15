@@ -1372,7 +1372,7 @@ int NAND_ReleaseVoltage(void)
 {
 	int ret = 0;
 
-#if 1
+#if 0
 
 
 	if(regu1!=NULL)
