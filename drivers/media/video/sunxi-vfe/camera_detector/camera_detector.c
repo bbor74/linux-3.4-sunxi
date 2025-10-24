@@ -843,8 +843,12 @@ static __s32 camera_same_i2c_id_detect(__camera_detector_t *camera_detector,
 			while(regulator_is_enabled(camera_detector->camera[i].iovdd))
 			{
 				a++;
-				regulator_disable(camera_detector->camera[i].iovdd);
+				ret = regulator_disable(camera_detector->camera[i].iovdd);
 				//printk("cam[%d]iovdd count=%d\n",i,a);
+				if (ret < 0) {
+					printk("regulator_disable iovdd fail, return %d.\n", ret);
+					break;
+				}
 				if(a>100)
 					break;
 			}
@@ -854,8 +858,12 @@ static __s32 camera_same_i2c_id_detect(__camera_detector_t *camera_detector,
 			while(regulator_is_enabled(camera_detector->camera[i].avdd))
 			{
 				b++;
-				regulator_disable(camera_detector->camera[i].avdd);
+				ret = regulator_disable(camera_detector->camera[i].avdd);
 				//printk("cam[%d]avdd count=%d\n",i,b);
+				if (ret < 0) {
+					printk("regulator_disable avdd fail, return %d.\n", ret);
+					break;
+				}
 				if(b>100)
 					break;
 			}
@@ -865,8 +873,12 @@ static __s32 camera_same_i2c_id_detect(__camera_detector_t *camera_detector,
 			while(regulator_is_enabled(camera_detector->camera[i].dvdd))
 			{
 				c++;
-				regulator_disable(camera_detector->camera[i].dvdd);
+				ret = regulator_disable(camera_detector->camera[i].dvdd);
 				//printk("cam[%d]dvdd count=%d\n",i,c);
+				if (ret < 0) {
+					printk("regulator_disable dvdd fail, return %d.\n", ret);
+					break;
+				}
 				if(c>100)
 					break;
 			}
