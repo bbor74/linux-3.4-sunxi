@@ -20,4 +20,23 @@ typedef struct {
     __camera_info_t         camera[MAX_CAMERA_NUM];
 }__camera_detector_t;
 
+enum sensor_fmt {
+  YUV,
+  RAW_2M,
+  RAW_5M
+};
+
+
+typedef struct __camera_sensor_info_{
+	char * sensor_name;
+	__u32 pixels;
+	__u32 sensor_fmt;
+	/*
+	__u32 h_flip;
+	__u32 v_flip;
+	*/
+}__camera_sensor_info;
+
+int  camera_gpio_set_range(struct gpio_config  *gpio, __u32 i);
+
 #endif

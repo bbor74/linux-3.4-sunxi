@@ -16,11 +16,14 @@
 
 #include "config.h"
 #include "platform_cfg.h"
+#include "camera_detector/camera_detector.h"
 #include "isp_cfg/isp_cfg.h"
 #define SIZE_OF_LSC_TBL_MOD0     7*768*2
 #define SIZE_OF_LSC_TBL_MOD1     8*768*2
 #define SIZE_OF_HDR_TBL     4*256*2
 #define SIZE_OF_GAMMA_TBL   256*2
+extern void camera_export_info(char *module_name, int *i2c_addr, int index);
+extern void camera_export_type_info(int *camera_num, char *back_name, char *front_name, int *front_back);//gongpiqiang+++
 
 void set_used(struct sensor_config_init *sensor_cfg, void *value, int len)
 {
@@ -307,12 +310,18 @@ parse_sensor_list_info_end:
 int fetch_config(struct vfe_dev *dev)
 {
 #ifdef VFE_SYS_CONFIG
-  int ret,i;
+  int ret;
+  unsigned int i,vip_dev_index;
+  unsigned int address,front_camera_used;
   char vfe_para[16] = {0};
   char dev_para[32] = {0};
+  char back_name[20],front_name[20];
+
+  unsigned char cam_name[20];
 
   script_item_u   val;
   script_item_value_type_e	type;
+  int pwdn_change = 0;
 
   sprintf(vfe_para, "csi%d", dev->id);
   /* fetch device quatity issue */
@@ -324,6 +333,8 @@ int fetch_config(struct vfe_dev *dev)
 	  dev->dev_qty=val.val;
 	  vfe_dbg(0,"vip%d vip_dev_qty=%d\n",dev->id, dev->dev_qty);
   }
+  camera_export_type_info(&dev->dev_qty, back_name, front_name, &front_camera_used);
+  vfe_dbg(0,"fetch_inet_config:camera_num=%d,back_name=%s,front_name=%s,front_back=%d\n",dev->dev_qty,back_name,front_name,front_camera_used);
 	if(dev->vip_define_sensor_list == 0xff)
 	{
 		type = script_get_item(vfe_para,"vip_define_sensor_list", &val);
@@ -334,6 +345,14 @@ int fetch_config(struct vfe_dev *dev)
 			dev->vip_define_sensor_list=val.val;
 			vfe_dbg(0,"vip%d vip_define_sensor_list=%d\n",dev->id, dev->vip_define_sensor_list);
 		}
+	}
+	type = script_get_item(vfe_para,"fb_pwdn_change", &val);
+	if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
+		pwdn_change = 0;
+	  vfe_err("fetch pwdn_change from sys_config failed\n");
+	} else {
+	  pwdn_change=val.val;
+	  vfe_dbg(0,"pwdn_change=%d\n",pwdn_change);
 	}
 	type = script_get_item(vfe_para, "vip_csi_mck", &val);
 	for(i=0; i<dev->dev_qty; i++)
@@ -350,14 +369,17 @@ int fetch_config(struct vfe_dev *dev)
 			//printk("mclk:%d,%d,%d,%d,%d\n",i, dev->ccm_cfg[i]->gpio.mclk.mul_sel, dev->ccm_cfg[i]->gpio.mclk.pull, dev->ccm_cfg[i]->gpio.mclk.drv_level,dev->ccm_cfg[i]->gpio.mclk.data);
 		}
 	}
-
-  for(i=0; i<dev->dev_qty; i++)
+  for(i=0,vip_dev_index=0; i<dev->dev_qty; i++,vip_dev_index++)
   {
+	if(dev->dev_qty ==1 && front_camera_used)
+	{
+		vip_dev_index =1;
+	}
     /* i2c and module name*/
-    sprintf(dev_para, "vip_dev%d_twi_id", i);
+    sprintf(dev_para, "vip_dev%d_twi_id", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-      vfe_err("fetch vip_dev%d_twi_id from sys_config failed\n", i);
+      vfe_err("fetch vip_dev%d_twi_id from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->twi_id = val.val;
     }
@@ -385,20 +407,20 @@ int fetch_config(struct vfe_dev *dev)
     ret = strcmp(dev->ccm_cfg[i]->ccm,"");
     if((dev->ccm_cfg[i]->i2c_addr == 0xff) && (ret == 0)) //when insmod without parm
     {
-      sprintf(dev_para, "vip_dev%d_twi_addr", i);
+      sprintf(dev_para, "vip_dev%d_twi_addr", vip_dev_index);
       type = script_get_item(vfe_para, dev_para, &val);
       if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-        vfe_err("fetch vip_dev%d_twi_addr from sys_config failed\n", i);
+        vfe_err("fetch vip_dev%d_twi_addr from sys_config failed\n", vip_dev_index);
       } else {
         dev->ccm_cfg[i]->i2c_addr = val.val;
       }
 
-      sprintf(dev_para, "vip_dev%d_mname", i);
+      sprintf(dev_para, "vip_dev%d_mname", vip_dev_index);
       type = script_get_item(vfe_para, dev_para, &val);
       if (SCIRPT_ITEM_VALUE_TYPE_STR != type) {
         char tmp_str[]="ov5650";
         strcpy(dev->ccm_cfg[i]->ccm,tmp_str);
-        vfe_err("fetch vip_dev%d_mname from sys_config failed\n", i);
+        vfe_err("fetch vip_dev%d_mname from sys_config failed\n", vip_dev_index);
       } else {
         strcpy(dev->ccm_cfg[i]->ccm,val.str);
         strcpy(dev->ccm_cfg[i]->isp_cfg_name,val.str);
@@ -407,137 +429,162 @@ int fetch_config(struct vfe_dev *dev)
     }
 
     /* isp used mode */
-    sprintf(dev_para, "vip_dev%d_isp_used", i);
+    sprintf(dev_para, "vip_dev%d_isp_used", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_INT != type)
     {
-      vfe_dbg(0,"fetch vip_dev%d_isp_used from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_isp_used from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->is_isp_used = val.val;
     }
 
     /* fmt */
-    sprintf(dev_para, "vip_dev%d_fmt", i);
+    sprintf(dev_para, "vip_dev%d_fmt", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-      vfe_dbg(0,"fetch vip_dev%d_fmt from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_fmt from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->is_bayer_raw = val.val;
     }
 
     /* standby mode */
-    sprintf(dev_para, "vip_dev%d_stby_mode", i);
+    sprintf(dev_para, "vip_dev%d_stby_mode", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-      vfe_dbg(0,"fetch vip_dev%d_stby_mode from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_stby_mode from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->power.stby_mode = val.val;
     }
 
     /* fetch flip issue */
-    sprintf(dev_para, "vip_dev%d_vflip", i);
+    sprintf(dev_para, "vip_dev%d_%s_vflip", vip_dev_index, i==0 ? back_name : front_name);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-      vfe_dbg(0,"fetch vip_dev%d_vflip from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_%s_vflip from sys_config failed\n", vip_dev_index, i==0 ? back_name : front_name);
+
+      sprintf(dev_para, "vip_dev%d_vflip", vip_dev_index);
+	    type = script_get_item(vfe_para, dev_para, &val);
+	    if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
+	      vfe_dbg(0,"fetch vip_dev%d_vflip from sys_config failed\n", vip_dev_index);
+			}else{
+				dev->ccm_cfg[i]->vflip = val.val;
+			}
     } else {
       dev->ccm_cfg[i]->vflip = val.val;
     }
-
-    sprintf(dev_para, "vip_dev%d_hflip", i);
+    sprintf(dev_para, "vip_dev%d_%s_hflip", vip_dev_index, i==0 ? back_name : front_name);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-      vfe_dbg(0,"fetch vip_dev%d_hflip from sys_config failed\n", i);
+      	vfe_dbg(0,"fetch vip_dev%d_%s_hflip from sys_config failed\n", vip_dev_index, i==0 ? back_name : front_name);
+
+		sprintf(dev_para, "vip_dev%d_hflip", vip_dev_index);
+		type = script_get_item(vfe_para, dev_para, &val);
+	    if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
+	      vfe_dbg(0,"fetch vip_dev%d_hflip from sys_config failed\n", vip_dev_index);
+	    } else {
+	      dev->ccm_cfg[i]->hflip = val.val;
+	    }
     } else {
       dev->ccm_cfg[i]->hflip = val.val;
     }
-
+    if(strcmp((i==0 ? back_name : front_name), "ov5640") == 0)
+    {
+    	dev->ccm_cfg[i]->hflip = ~dev->ccm_cfg[i]->hflip;
+    	dev->ccm_cfg[i]->hflip = 0x1&dev->ccm_cfg[i]->hflip;
+    }
     /* fetch power issue*/
-    sprintf(dev_para, "vip_dev%d_iovdd", i);
+    sprintf(dev_para, "vip_dev%d_iovdd", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
 
     if (SCIRPT_ITEM_VALUE_TYPE_STR != type) {
       char null_str[]="";
       strcpy(dev->ccm_cfg[i]->iovdd_str,null_str);
-      vfe_dbg(0,"fetch vip_dev%d_iovdd from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_iovdd from sys_config failed\n", vip_dev_index);
     } else {
       strcpy(dev->ccm_cfg[i]->iovdd_str,val.str);
     }
 
-    sprintf(dev_para, "vip_dev%d_iovdd_vol", i);
+    sprintf(dev_para, "vip_dev%d_iovdd_vol", vip_dev_index);
     type = script_get_item(vfe_para,dev_para, &val);
 	if (SCIRPT_ITEM_VALUE_TYPE_INT != type)
 	{
 		dev->ccm_cfg[i]->power.iovdd_vol=0;
-		vfe_dbg(0,"fetch vip_dev%d_iovdd_vol from sys_config failed, default =0\n",i);
+		vfe_dbg(0,"fetch vip_dev%d_iovdd_vol from sys_config failed, default =0\n",vip_dev_index);
 	}
 	else
 	 {
 		dev->ccm_cfg[i]->power.iovdd_vol=val.val;
 	}
 
-    sprintf(dev_para, "vip_dev%d_avdd", i);
+    sprintf(dev_para, "vip_dev%d_avdd", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_STR != type) {
       char null_str[]="";
       strcpy(dev->ccm_cfg[i]->avdd_str,null_str);
-      vfe_dbg(0,"fetch vip_dev%d_avdd from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_avdd from sys_config failed\n", vip_dev_index);
     } else {
       strcpy(dev->ccm_cfg[i]->avdd_str,val.str);
     }
 
-    sprintf(dev_para, "vip_dev%d_avdd_vol", i);
+    sprintf(dev_para, "vip_dev%d_avdd_vol", vip_dev_index);
     type = script_get_item(vfe_para,dev_para, &val);
 		if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
 	    dev->ccm_cfg[i]->power.avdd_vol=0;
-			vfe_dbg(0,"fetch vip_dev%d_avdd_vol from sys_config failed, default =0\n",i);
+			vfe_dbg(0,"fetch vip_dev%d_avdd_vol from sys_config failed, default =0\n",vip_dev_index);
 		} else {
 	    dev->ccm_cfg[i]->power.avdd_vol=val.val;
 	  }
 
-    sprintf(dev_para, "vip_dev%d_dvdd", i);
+    sprintf(dev_para, "vip_dev%d_dvdd", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_STR != type){
       char null_str[]="";
       strcpy(dev->ccm_cfg[i]->dvdd_str,null_str);
-      vfe_dbg(0,"fetch vip_dev%d_dvdd from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_dvdd from sys_config failed\n", vip_dev_index);
     } else {
       strcpy(dev->ccm_cfg[i]->dvdd_str, val.str);
     }
 
-		sprintf(dev_para, "vip_dev%d_dvdd_vol", i);
+		 sprintf(dev_para, "vip_dev%d_%s_dvdd_vol", vip_dev_index, i==0 ? back_name : front_name);
     type = script_get_item(vfe_para,dev_para, &val);
 		if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
-	    dev->ccm_cfg[i]->power.dvdd_vol=0;
-			vfe_dbg(0,"fetch vip_dev%d_dvdd_vol from sys_config failed, default =0\n",i);
+			vfe_dbg(0,"fetch vip_dev%d_%s_dvdd_vol from sys_config failed\n", vip_dev_index, i==0 ? back_name : front_name);
+		    sprintf(dev_para, "vip_dev%d_dvdd_vol", vip_dev_index);
+			type = script_get_item(vfe_para, dev_para, &val);
+		    if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
+		      vfe_dbg(0,"fetch vip_dev%d_hflip from sys_config failed\n", vip_dev_index);
+		    } else {
+		      dev->ccm_cfg[i]->power.dvdd_vol = val.val;
+		    }
 		} else {
 	    dev->ccm_cfg[i]->power.dvdd_vol=val.val;
 	  }
 
-    sprintf(dev_para, "vip_dev%d_afvdd", i);
+    sprintf(dev_para, "vip_dev%d_afvdd", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_STR != type) {
       char null_str[]="";
       strcpy(dev->ccm_cfg[i]->afvdd_str,null_str);
-      vfe_dbg(0,"fetch vip_dev%d_afvdd from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_afvdd from sys_config failed\n", vip_dev_index);
     } else {
       strcpy(dev->ccm_cfg[i]->afvdd_str, val.str);
     }
 
-	  sprintf(dev_para, "vip_dev%d_afvdd_vol", i);
+	  sprintf(dev_para, "vip_dev%d_afvdd_vol", vip_dev_index);
     type = script_get_item(vfe_para,dev_para, &val);
 		if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
 	    dev->ccm_cfg[i]->power.afvdd_vol=0;
-			vfe_dbg(0,"fetch vip_dev%d_afvdd_vol from sys_config failed, default =0\n",i);
+			vfe_dbg(0,"fetch vip_dev%d_afvdd_vol from sys_config failed, default =0\n",vip_dev_index);
 		} else {
 	    dev->ccm_cfg[i]->power.afvdd_vol=val.val;
 	  }
 
     /* fetch reset/power/standby/flash/af io issue */
-    sprintf(dev_para, "vip_dev%d_reset", i);
+    sprintf(dev_para, "vip_dev%d_reset", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
       dev->ccm_cfg[i]->gpio.reset.gpio = GPIO_INDEX_INVALID;
-      vfe_dbg(0,"fetch vip_dev%d_reset from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_reset from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->gpio.reset.gpio = val.gpio.gpio;
       dev->ccm_cfg[i]->gpio.reset.mul_sel=val.gpio.mul_sel;
@@ -546,11 +593,15 @@ int fetch_config(struct vfe_dev *dev)
 			dev->ccm_cfg[i]->gpio.reset.data = val.gpio.data;
     }
 
-    sprintf(dev_para, "vip_dev%d_pwdn", i);
+    sprintf(dev_para, "vip_dev%d_pwdn", vip_dev_index);
+    if(pwdn_change == 1 && dev->dev_qty ==2){
+    	sprintf(dev_para, "vip_dev%d_pwdn", (~vip_dev_index)&0x1);
+    	//printk("pwdn_change=%d [%s]\n",pwdn_change,dev_para);
+    }
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_PIO != type){
       dev->ccm_cfg[i]->gpio.pwdn.gpio = GPIO_INDEX_INVALID;
-      vfe_dbg(0,"fetch vip_dev%d_stby from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_stby from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->gpio.pwdn.gpio = val.gpio.gpio;
       dev->ccm_cfg[i]->gpio.pwdn.mul_sel = val.gpio.mul_sel;
@@ -558,11 +609,12 @@ int fetch_config(struct vfe_dev *dev)
 			dev->ccm_cfg[i]->gpio.pwdn.drv_level = val.gpio.drv_level;
 			dev->ccm_cfg[i]->gpio.pwdn.data = val.gpio.data;
     }
-    sprintf(dev_para, "vip_dev%d_power_en", i);
+
+    sprintf(dev_para, "vip_dev%d_power_en", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
       dev->ccm_cfg[i]->gpio.power_en.gpio = GPIO_INDEX_INVALID;
-      vfe_dbg(0,"fetch vip_dev%d_power_en from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_power_en from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->gpio.power_en.gpio = val.gpio.gpio;
       dev->ccm_cfg[i]->gpio.power_en.mul_sel = val.gpio.mul_sel;
@@ -570,11 +622,11 @@ int fetch_config(struct vfe_dev *dev)
 			dev->ccm_cfg[i]->gpio.power_en.drv_level = val.gpio.drv_level;
 			dev->ccm_cfg[i]->gpio.power_en.data = val.gpio.data;
     }
-    sprintf(dev_para, "vip_dev%d_flash_en", i);
+    sprintf(dev_para, "vip_dev%d_flash_en", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
       dev->ccm_cfg[i]->gpio.flash_en.gpio = GPIO_INDEX_INVALID;
-      vfe_dbg(0,"fetch vip_dev%d_flash_en from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_flash_en from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->gpio.flash_en.gpio = val.gpio.gpio;
       dev->ccm_cfg[i]->gpio.flash_en.mul_sel = val.gpio.mul_sel;
@@ -593,11 +645,11 @@ int fetch_config(struct vfe_dev *dev)
 	
     }
 
-    sprintf(dev_para, "vip_dev%d_flash_mode", i);
+    sprintf(dev_para, "vip_dev%d_flash_mode", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
       dev->ccm_cfg[i]->gpio.flash_mode.gpio = GPIO_INDEX_INVALID;
-      vfe_dbg(0,"fetch vip_dev%d_flash_mode from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_flash_mode from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->gpio.flash_mode.gpio = val.gpio.gpio;
       dev->ccm_cfg[i]->gpio.flash_mode.mul_sel = val.gpio.mul_sel;
@@ -606,11 +658,11 @@ int fetch_config(struct vfe_dev *dev)
 			dev->ccm_cfg[i]->gpio.flash_mode.data = val.gpio.data;
     }
 
-    sprintf(dev_para, "vip_dev%d_af_pwdn", i);
+    sprintf(dev_para, "vip_dev%d_af_pwdn", vip_dev_index);
     type = script_get_item(vfe_para, dev_para, &val);
     if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
       dev->ccm_cfg[i]->gpio.af_pwdn.gpio = GPIO_INDEX_INVALID;
-      vfe_dbg(0,"fetch vip_dev%d_af_pwdn from sys_config failed\n", i);
+      vfe_dbg(0,"fetch vip_dev%d_af_pwdn from sys_config failed\n", vip_dev_index);
     } else {
       dev->ccm_cfg[i]->gpio.af_pwdn.gpio = val.gpio.gpio;
       dev->ccm_cfg[i]->gpio.af_pwdn.mul_sel = val.gpio.mul_sel;
@@ -620,11 +672,11 @@ int fetch_config(struct vfe_dev *dev)
     }
 
 		/* fetch actuator issue */
-	  sprintf(dev_para, "vip_dev%d_act_used", i);
+	  sprintf(dev_para, "vip_dev%d_act_used", vip_dev_index);
 	  type = script_get_item(vfe_para, dev_para, &val);
 	  if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
 		dev->ccm_cfg[i]->act_used= 0;
-		vfe_dbg(0,"fetch vip_dev%d_act_used from sys_config failed\n", i);
+		vfe_dbg(0,"fetch vip_dev%d_act_used from sys_config failed\n", vip_dev_index);
 	  } else {
 		dev->ccm_cfg[i]->act_used=val.val;
 	  }
@@ -642,16 +694,32 @@ int fetch_config(struct vfe_dev *dev)
   	      strcpy(dev->ccm_cfg[i]->act_name,val.str);
   	    }
 
-  		sprintf(dev_para, "vip_dev%d_act_slave", i);
+  		sprintf(dev_para, "vip_dev%d_act_slave", vip_dev_index);
   		type = script_get_item(vfe_para, dev_para, &val);
   		if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
   		  dev->ccm_cfg[i]->act_slave= 0;
 
-  		  vfe_dbg(0,"fetch vip_dev%d_act_slave from sys_config failed\n", i);
+  		  vfe_dbg(0,"fetch vip_dev%d_act_slave from sys_config failed\n", vip_dev_index);
   		} else {
   		  dev->ccm_cfg[i]->act_slave=val.val;
   		}
 	  }
+   type = script_get_item("camera_list_para", "camera_list_para_used", &val);
+    if ((SCIRPT_ITEM_VALUE_TYPE_INT == type) && (val.val == 1))
+	{
+		camera_export_info(cam_name, &address,vip_dev_index);
+		vfe_dbg(0,"camera_export_info i=%d,cam_name=%s,address=0x%x\n",i,cam_name,address);
+
+		if( (strcmp(cam_name,"")!=0)&&(address!=0) )
+		{
+			strcpy(dev->ccm_cfg[i]->ccm, cam_name);
+			dev->ccm_cfg[i]->i2c_addr=address;
+		}
+		else
+		{
+			vfe_dbg(0,"detect none sensor in list, use sysconfig setting!\n");
+		}
+    }
   //vfe_dbg(0,"act_used=%d, name=%s, slave=0x%x\n",dev->ccm_cfg[0]->act_used,
   //	dev->ccm_cfg[0]->act_name, dev->ccm_cfg[0]->act_slave);
   }
@@ -752,7 +820,7 @@ int fetch_config(struct vfe_dev *dev)
     dev->ccm_cfg[i]->act_slave = act_addr[i];
   }
 #endif
-
+  char gpio_name[16];
   for(i=0; i<dev->dev_qty; i++)
   {
     vfe_dbg(0,"dev->ccm_cfg[%d]->ccm = %s\n",i,dev->ccm_cfg[i]->ccm);
@@ -769,6 +837,10 @@ int fetch_config(struct vfe_dev *dev)
     vfe_dbg(0,"dev->ccm_cfg[%d]->act_used = %d\n",i,dev->ccm_cfg[i]->act_used);
     vfe_dbg(0,"dev->ccm_cfg[%d]->act_name = %s\n",i,dev->ccm_cfg[i]->act_name);
     vfe_dbg(0,"dev->ccm_cfg[%d]->act_slave = 0x%x\n",i,dev->ccm_cfg[i]->act_slave);
+	sunxi_gpio_to_name( dev->ccm_cfg[i]->gpio.pwdn.gpio, gpio_name);
+	vfe_dbg(0,"dev->ccm_cfg[%d]->gpio.pwdn = %s\n",i, gpio_name);
+	sunxi_gpio_to_name( dev->ccm_cfg[i]->gpio.reset.gpio, gpio_name);
+	vfe_dbg(0,"dev->ccm_cfg[%d]->gpio.reset = %s\n",i, gpio_name);
   }
 
   return 0;
@@ -1602,22 +1674,18 @@ int match_isp_cfg(struct vfe_dev *dev,int isp_id)
 	memcpy(isp_ini_cfg->isp_tunning_settings.gamma_tbl_post, isp_ini_cfg->isp_tunning_settings.gamma_tbl_ini, ISP_GAMMA_MEM_SIZE);
 	return 0;
 }
-int read_ini_info(struct vfe_dev *dev,int isp_id, char *main_path)
+int read_ini_info(struct vfe_dev *dev,int isp_id)
 {
 	int i, ret = 0;
 	char isp_cfg_path[128],isp_tbl_path[128],file_name_path[128];
 	struct cfg_section *cfg_section;
 	struct file* fp;
 
+	vfe_print("read ini start\n");
 	if(dev->ccm_cfg[isp_id] != NULL && strcmp(dev->ccm_cfg[isp_id]->isp_cfg_name, "") != 0)
 	{
-		sprintf(isp_cfg_path, "%s%s/",main_path, dev->ccm_cfg[isp_id]->isp_cfg_name);
-		sprintf(isp_tbl_path, "%s%s/bin/", main_path, dev->ccm_cfg[isp_id]->isp_cfg_name);
-
-		//sprintf(isp_cfg_path, "/system/etc/hawkview/%s/", dev->ccm_cfg[isp_id]->isp_cfg_name);
-		//sprintf(isp_tbl_path, "/system/etc/hawkview/%s/bin/", dev->ccm_cfg[isp_id]->isp_cfg_name);
-		//sprintf(isp_cfg_path, "/mnt/extsd/hawkview/%s/", dev->ccm_cfg[isp_id]->isp_cfg_name);
-		//sprintf(isp_tbl_path, "/mnt/extsd/hawkview/%s/bin/", dev->ccm_cfg[isp_id]->isp_cfg_name);
+		sprintf(isp_cfg_path, "/system/etc/hawkview/%s/", dev->ccm_cfg[isp_id]->isp_cfg_name);
+		sprintf(isp_tbl_path, "/system/etc/hawkview/%s/bin/", dev->ccm_cfg[isp_id]->isp_cfg_name);
 	}
 	else
 	{
@@ -1636,7 +1704,6 @@ int read_ini_info(struct vfe_dev *dev,int isp_id, char *main_path)
 			goto read_ini_info_end;
 		}
 	}
-	vfe_print("read ini start\n");
 	
 	dev->isp_gen_set[isp_id].isp_ini_cfg = isp_init_def_cfg;
 	for(i=0; i< ARRAY_SIZE(FileAttr); i++)

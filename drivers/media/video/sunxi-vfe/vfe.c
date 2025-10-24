@@ -955,24 +955,22 @@ static inline void vfe_set_addr(struct vfe_dev *dev,struct vfe_buffer *buffer)
 
 static unsigned int common_af_status_to_v4l2(enum auto_focus_status af_status)
 {
-	switch(af_status) {
-		case AUTO_FOCUS_STATUS_IDLE:
-			return V4L2_AUTO_FOCUS_STATUS_IDLE;
-		case AUTO_FOCUS_STATUS_BUSY:
-			return V4L2_AUTO_FOCUS_STATUS_BUSY;
-		case AUTO_FOCUS_STATUS_REACHED:
-			return V4L2_AUTO_FOCUS_STATUS_REACHED;
-		case AUTO_FOCUS_STATUS_APPROCH:
-			return V4L2_AUTO_FOCUS_STATUS_BUSY;
-		case AUTO_FOCUS_STATUS_REFOCUS:
-			return V4L2_AUTO_FOCUS_STATUS_BUSY;
-		case AUTO_FOCUS_STATUS_FINDED:
-			return V4L2_AUTO_FOCUS_STATUS_BUSY;
-		case AUTO_FOCUS_STATUS_FAILED:
-			return V4L2_AUTO_FOCUS_STATUS_FAILED;
-		default:
-		      return V4L2_AUTO_FOCUS_STATUS_IDLE;
-	}
+  switch(af_status) {
+    case AUTO_FOCUS_STATUS_IDLE:
+      return V4L2_AUTO_FOCUS_STATUS_IDLE;
+    case AUTO_FOCUS_STATUS_BUSY:
+      return V4L2_AUTO_FOCUS_STATUS_BUSY;
+    case AUTO_FOCUS_STATUS_APPROCH:
+      return V4L2_AUTO_FOCUS_STATUS_BUSY;
+    case AUTO_FOCUS_STATUS_FINDED:
+      return V4L2_AUTO_FOCUS_STATUS_REACHED;
+    case AUTO_FOCUS_STATUS_FAILED:
+      return V4L2_AUTO_FOCUS_STATUS_FAILED;
+    case AUTO_FOCUS_STATUS_REFOCUS:
+      return V4L2_AUTO_FOCUS_STATUS_BUSY;
+    default:
+      return V4L2_AUTO_FOCUS_STATUS_IDLE;
+  }
 }
 static void vfe_dump_csi_regs(struct vfe_dev *dev)
 {
@@ -1093,7 +1091,7 @@ static void isp_isr_bh_handle(struct work_struct *work)
 		if(1 == isp_reparse_flag)
 		{
 			vfe_print("ISP reparse ini file!\n");
-			if(read_ini_info(dev,dev->input,"/system/etc/hawkview/"))
+			if(read_ini_info(dev,dev->input))
 			{
 				vfe_warn("ISP reparse ini fail, please check isp config!\n");
 				goto ISP_REPARSE_END;
@@ -1381,6 +1379,8 @@ static irqreturn_t vfe_isr(int irq, void *priv)
 	struct vfe_isp_stat_buf_queue *isp_stat_bq = &dev->isp_stat_bq;
 	struct vfe_isp_stat_buf *stat_buf_pt;
 	FUNCTION_LOG;
+	vfe_dump_csi_regs(dev);
+	frame_cnt++;
 	vfe_dbg(0,"vfe interrupt!!!\n");
 	if(vfe_is_generating(dev) == 0)
 	{
@@ -1412,8 +1412,6 @@ static irqreturn_t vfe_isr(int irq, void *priv)
 			return IRQ_HANDLED;
 		}
 	}
-	vfe_dump_csi_regs(dev);
-	frame_cnt++;
 
 	FUNCTION_LOG;
 	//spin_lock(&dev->slock);
@@ -1491,9 +1489,7 @@ isp_exp_handle:
 		list_del(&buf->vb.queue);
 		do_gettimeofday(&buf->vb.ts);
 		buf->vb.field_count++;
-		//if(frame_cnt%150 == 0){
-		//	printk("video buffer fps = %ld\n",100000000/(buf->vb.ts.tv_sec*1000000+buf->vb.ts.tv_usec - (dev->sec*1000000+dev->usec)));
-		//}
+
 		vfe_dbg(2,"video buffer frame interval = %ld\n",buf->vb.ts.tv_sec*1000000+buf->vb.ts.tv_usec - (dev->sec*1000000+dev->usec));
 		dev->sec = buf->vb.ts.tv_sec;
 		dev->usec = buf->vb.ts.tv_usec;
@@ -3241,9 +3237,7 @@ static int vidioc_g_ctrl(struct file *file, void *priv,
         ctrl->value = dev->ctrl_para.exp_auto_pri;
         break;
       case V4L2_CID_FOCUS_ABSOLUTE:
-        ctrl->value = CLIP(((dev->isp_3a_result_pt->real_vcm_pos - dev->isp_gen_set_pt->stat.vcm_cfg.vcm_min_code ) << 10) / 
-        			(dev->isp_gen_set_pt->stat.vcm_cfg.vcm_max_code - 
-        			dev->isp_gen_set_pt->stat.vcm_cfg.vcm_min_code ), 0, 1023);
+        ctrl->value = dev->ctrl_para.focus_abs;
         break;
       case V4L2_CID_FOCUS_RELATIVE:
         ctrl->value = dev->ctrl_para.focus_rel;
@@ -5031,7 +5025,7 @@ static void probe_work_handle(struct work_struct *work)
 		}
 		if(dev->ccm_cfg[input_num]->is_isp_used && dev->ccm_cfg[input_num]->is_bayer_raw)
 		{
-			if(read_ini_info(dev,input_num, "/system/etc/hawkview/"))
+			if(read_ini_info(dev,input_num))
 			{
 				vfe_warn("read ini info fail\n");
 			}

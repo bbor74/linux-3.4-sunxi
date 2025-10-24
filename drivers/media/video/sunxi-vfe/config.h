@@ -12,6 +12,6 @@
 #include "utility/cfg_op.h"
 
 int fetch_config(struct vfe_dev *dev);
-int read_ini_info(struct vfe_dev *dev,int isp_id, char *main_path);
+int read_ini_info(struct vfe_dev *dev,int isp_id);
 
 #endif //__CONFIG__H__

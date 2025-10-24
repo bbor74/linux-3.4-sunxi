@@ -3,9 +3,9 @@
 
 #include "camera_includes.h"
 
-#define MAX_CAMERA_LIST_ITEM                21
+#define MAX_CAMERA_LIST_ITEM                36//gongpiqiang modify add camera
 
-#define CAMERA_LIST_ITEM_INIT(camera_name, i2c_addr_step, i2c_data_step, i2c_address, stby_on_pol, stby_off_pol, rst_on_pol, rst_off_pol, pwr_on_pol, pwr_off_pol) \
+#define CAMERA_LIST_ITEM_INIT(camera_name, i2c_addr_step, i2c_data_step, i2c_address, stby_on_pol, stby_off_pol, rst_on_pol, rst_off_pol, pwr_on_pol, pwr_off_pol, inet_detect) \
 {\
     .name           = #camera_name,\
     .pwr_on         = camera_pwr_on_##camera_name,\
@@ -20,7 +20,7 @@
     .CSI_RST_OFF    = rst_off_pol,\
     .CSI_PWR_ON     = pwr_on_pol,\
     .CSI_PWR_OFF    = pwr_off_pol,\
-    .need_detect    = FALSE,\
+    .need_detect    = inet_detect,\
 }\
 
 typedef void (*__camera_power_f)(__u32 /* list index */, __camera_info_t *);
