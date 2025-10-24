@@ -9,7 +9,8 @@ obj-y				+= irqchip/
 obj-y				+= bus/
 
 # GPIO must come after pinctrl as gpios may need to mux pins etc
-obj-y				+= pinctrl/
+#obj-y				+= pinctrl/
+obj-y				+= pinctrl_cr/
 obj-y				+= gpio/
 obj-$(CONFIG_SUNXI_ARISC) 		+= arisc/
 obj-y				+= pwm/
