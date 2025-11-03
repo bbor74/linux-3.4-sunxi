@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.4.55 Kernel Configuration
+# Linux/arm 3.4.66 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_ARM_HAS_SG_CHAIN=y
@@ -543,8 +543,6 @@ CONFIG_DRAM_SELFREFLASH_IN_CPUIDLE=y
 #
 # At least one emulation must be selected
 #
-# CONFIG_FPE_NWFPE is not set
-# CONFIG_FPE_FASTFPE is not set
 CONFIG_VFP=y
 CONFIG_VFPv3=y
 CONFIG_NEON=y
@@ -2133,7 +2131,7 @@ CONFIG_SND_SOC_I2C_AND_SPI=y
 CONFIG_HID_SUPPORT=y
 CONFIG_HID=y
 # CONFIG_HID_BATTERY_STRENGTH is not set
-# CONFIG_HIDRAW is not set
+CONFIG_HIDRAW=y
 CONFIG_UHID=y
 
 #
@@ -2168,7 +2166,7 @@ CONFIG_HID_KYE=y
 CONFIG_HID_KENSINGTON=y
 # CONFIG_HID_LCPOWER is not set
 CONFIG_HID_LOGITECH=y
-CONFIG_HID_LOGITECH_DJ=m
+CONFIG_HID_LOGITECH_DJ=y
 # CONFIG_LOGITECH_FF is not set
 # CONFIG_LOGIRUMBLEPAD2_FF is not set
 # CONFIG_LOGIG940_FF is not set
