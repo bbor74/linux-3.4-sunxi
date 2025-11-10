@@ -41,16 +41,17 @@
 #ifndef IO_ADDRESS
 #define IO_ADDRESS(x)  ((x) + 0xf0000000)
 #endif
-
+extern cpumask_t cpu_power_up_state_mask;
 /* for cross platform*/
 #if defined(CONFIG_ARCH_SUN9IW1P1)
-extern cpumask_t cpu_power_up_state_mask;
+#include <mach/sun9i/platsmp.h>
 #define SUN9I_IDLE_CPU_IS_WFI_MODE(cluster, cpu) (readl(IO_ADDRESS(SUNXI_R_CPUCFG_PBASE) + SUNXI_CLUSTER_CPU_STATUS(cluster)) & (1 << (16 + cpu)))
 extern int sun9i_cpu_power_set(unsigned int cluster, unsigned int cpu, bool enable);
 extern int sun9i_cluster_power_set(unsigned int cluster, bool enable);
 #endif
 
 #if defined(CONFIG_ARCH_SUN8IW6P1)
+#include <mach/sun8i/platsmp.h>
 #define SUN8I_IDLE_CPU_IS_WFI_MODE(cluster, cpu) (readl(IO_ADDRESS(SUNXI_R_CPUCFG_PBASE) + SUNXI_CLUSTER_CPU_STATUS(cluster)) & (1 << (16 + cpu)))
 extern int sun8i_cpu_power_set(unsigned int cluster, unsigned int cpu, bool enable);
 extern int sun8i_cluster_power_control(unsigned int cluster, bool enable);

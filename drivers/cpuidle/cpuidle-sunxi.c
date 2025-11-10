@@ -36,8 +36,6 @@
 #include <mach/cpuidle-sunxi.h>
 #include <linux/clk.h>
 #include <linux/clk-private.h>
-#include <mach/sun9i/platsmp.h>
-
 #ifdef CONFIG_ARCH_SUN9IW1P1
 #include <linux/clk/clk-sun9iw1.h>
 #endif
@@ -422,6 +420,7 @@ static int sunxi_all_cpu_power_down_in_c2state(struct cpuidle_device *dev,
 	cpu_pm_exit();
 	return index;
 }
+#ifdef CONFIG_CPU_FREQ_GOV_AUTO_HOTPLUG
 static int sunxi_enter_c2state(struct cpuidle_device *dev,
 				struct cpuidle_driver *drv,
 				int index)
@@ -481,6 +480,7 @@ static int sunxi_enter_c2state(struct cpuidle_device *dev,
 #endif
 	return index;
 }
+#endif
 #ifdef CONFIG_HAS_EARLYSUSPEND
 static void sunxi_cpuidle_earlysuspend(struct early_suspend *h)
 {
