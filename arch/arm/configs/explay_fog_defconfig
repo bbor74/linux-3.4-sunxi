@@ -2653,6 +2653,8 @@ CONFIG_DEVFREQ_GOV_VANS=y
 #
 # CONFIG_DEVFREQ_DRAM_FREQ is not set
 # CONFIG_GATOR_PERF is not set
+# CONFIG_SENSORS is not set
+# CONFIG_SENSORS_SSC is not set
 
 #
 # File systems
