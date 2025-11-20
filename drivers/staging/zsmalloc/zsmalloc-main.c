@@ -207,7 +207,6 @@ struct zs_pool {
 	struct size_class size_class[ZS_SIZE_CLASSES];
 
 	gfp_t flags;	/* allocation flags used when growing pool */
-	const char *name;
 };
 
 /*
@@ -795,8 +794,7 @@ fail:
 
 /**
  * zs_create_pool - Creates an allocation pool to work from.
- * @name: name of the pool to be created
- * @flags: allocation flags used when growing pool
+ * @flags: allocation flags used to allocate pool metadata
  *
  * This function must be called before anything when using
  * the zsmalloc allocator.
