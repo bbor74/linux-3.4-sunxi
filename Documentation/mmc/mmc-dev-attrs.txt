@@ -13,7 +13,7 @@ SD and MMC Device Attributes
 
 All attributes are read-only.
 
-	cid			Card Identifaction Register
+	cid			Card Identification Register
 	csd			Card Specific Data Register
 	scr			SD Card Configuration Register (SD only)
 	date			Manufacturing Date (from CID Register)

@@ -474,7 +474,6 @@ static inline int ping_supported(int family, int type, int code)
  * sort of error condition.
  */
 
-
 void ping_err(struct sk_buff *skb, int offset, u32 info)
 {
 	int family;
@@ -487,7 +486,7 @@ void ping_err(struct sk_buff *skb, int offset, u32 info)
 	int harderr;
 	int err;
 
-    if (skb->protocol == htons(ETH_P_IP)) {
+	if (skb->protocol == htons(ETH_P_IP)) {
 		struct iphdr *iph = (struct iphdr *)skb->data;
 		offset = iph->ihl << 2;
 		family = AF_INET;
@@ -502,7 +501,7 @@ void ping_err(struct sk_buff *skb, int offset, u32 info)
 	} else {
 		BUG();
 	}
-	
+
 	/* We assume the packet has already been checked by icmp_unreach */
 
 	if (!ping_supported(family, icmph->type, icmph->code))
@@ -867,8 +866,7 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 			return ip_recv_error(sk, msg, len, addr_len);
 #if IS_ENABLED(CONFIG_IPV6)
 		} else if (family == AF_INET6) {
-			return pingv6_ops.ipv6_recv_error(sk, msg, len,
-							  addr_len);
+			return pingv6_ops.ipv6_recv_error(sk, msg, len, addr_len);
 #endif
 		}
 	}

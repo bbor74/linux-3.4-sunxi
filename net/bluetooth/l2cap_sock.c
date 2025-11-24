@@ -113,7 +113,7 @@ static int l2cap_sock_connect(struct socket *sock, struct sockaddr *addr, int al
 	BT_DBG("sk %p", sk);
 
 	if (!addr || alen < sizeof(addr->sa_family) ||
-	    addr->sa_family != AF_BLUETOOTH)
+		addr->sa_family != AF_BLUETOOTH)
 		return -EINVAL;
 
 	memset(&la, 0, sizeof(la));

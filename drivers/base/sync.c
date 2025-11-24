@@ -98,6 +98,7 @@ void sync_timeline_destroy(struct sync_timeline *obj)
 	 * signal any children that their parent is going away.
 	 */
 	sync_timeline_signal(obj);
+
 	kref_put(&obj->kref, sync_timeline_free);
 }
 EXPORT_SYMBOL(sync_timeline_destroy);
@@ -422,8 +423,8 @@ static int sync_fence_get_status(struct sync_fence *fence)
 struct sync_fence *sync_fence_merge(const char *name,
 				    struct sync_fence *a, struct sync_fence *b)
 {
-	struct list_head *pos;
 	struct sync_fence *fence;
+	struct list_head *pos;
 	int err;
 
 	fence = sync_fence_alloc(name);

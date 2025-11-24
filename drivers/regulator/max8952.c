@@ -238,13 +238,12 @@ static int __devinit max8952_pmic_probe(struct i2c_client *client,
 	err = 0;
 
 	if (gpio_is_valid(pdata->gpio_vid0) &&
-			gpio_is_valid(pdata->gpio_vid1)) {
+		gpio_is_valid(pdata->gpio_vid1)) {
 		if (!gpio_request(pdata->gpio_vid0, "MAX8952 VID0"))
 			gpio_direction_output(pdata->gpio_vid0,
-					(pdata->default_mode) % 2);
+				(pdata->default_mode) % 2);
 		else
 			err = 1;
-
 		if (!gpio_request(pdata->gpio_vid1, "MAX8952 VID1"))
 			gpio_direction_output(pdata->gpio_vid1,
 				(pdata->default_mode >> 1) % 2);
@@ -265,10 +264,8 @@ static int __devinit max8952_pmic_probe(struct i2c_client *client,
 		/* Mark invalid */
 		pdata->gpio_vid0 = -1;
 		pdata->gpio_vid1 = -1;
-
 		/* Disable Pulldown of EN only */
 		max8952_write_reg(max8952, MAX8952_REG_CONTROL, 0x60);
-
 		dev_err(max8952->dev, "DVS modes disabled because VID0 and VID1"
 				" do not have proper controls.\n");
 	} else {
@@ -308,7 +305,6 @@ static int __devinit max8952_pmic_probe(struct i2c_client *client,
 			((pdata->ramp_speed & 0x7) << 5));
 
 	i2c_set_clientdata(client, max8952);
-
 	return 0;
 
 err_reg:

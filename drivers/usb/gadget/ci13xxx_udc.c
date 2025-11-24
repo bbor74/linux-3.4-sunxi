@@ -1873,6 +1873,7 @@ __acquires(mEp->lock)
 			break;
 		list_del_init(&mReq->queue);
 		dbg_done(_usb_addr(mEp), mReq->ptr->token, retval);
+
 		if (mReq->req.complete != NULL) {
 			spin_unlock(mEp->lock);
 			if ((mEp->type == USB_ENDPOINT_XFER_CONTROL) &&

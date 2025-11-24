@@ -208,7 +208,6 @@ static int ath_recv(struct hci_uart *hu, void *data, int count)
 		BT_ERR("Frame Reassembly Failed");
 		return ret;
 	}
-
 	return count;
 }
 

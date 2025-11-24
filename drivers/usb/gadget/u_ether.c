@@ -83,7 +83,6 @@ struct eth_dev {
 
 #define DEFAULT_QLEN	2	/* double buffering by default */
 
-
 #ifdef CONFIG_USB_GADGET_DUALSPEED
 
 static unsigned qmult = 5;

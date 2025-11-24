@@ -1813,7 +1813,6 @@ int wvlan_set_station_nickname(struct net_device *dev,
         wl_lock(lp, &flags);
 
         memset( lp->StationName, 0, sizeof( lp->StationName ));
-
 	len = min_t(size_t, wrqu->data.length, sizeof(lp->StationName));
 	strlcpy(lp->StationName, extra, len);
 

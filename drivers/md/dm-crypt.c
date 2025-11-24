@@ -329,6 +329,7 @@ static void crypt_iv_essiv_dtr(struct crypt_config *cc)
 		crypto_free_cipher(essiv_tfm);
 
 	cc->iv_private = NULL;
+
 }
 
 static int crypt_iv_essiv_ctr(struct crypt_config *cc, struct dm_target *ti,
@@ -382,6 +383,7 @@ bad:
 static int crypt_iv_essiv_gen(struct crypt_config *cc, u8 *iv,
 			      struct dm_crypt_request *dmreq)
 {
+
 	struct crypto_cipher *essiv_tfm = cc->iv_private;
 
 	memset(iv, 0, cc->iv_size);
@@ -1151,6 +1153,7 @@ static void kcryptd_crypt_read_convert(struct dm_crypt_io *io)
 			   io->sector);
 
 	r = crypt_convert(cc, &io->ctx);
+
 	if (r < 0)
 		io->error = -EIO;
 

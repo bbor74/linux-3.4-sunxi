@@ -1882,6 +1882,7 @@ retry:
 		if (err)
 			goto out;
 	}
+
 	err = mmc_erase(card, from, nr, arg);
 	if (!err && arg == MMC_SECURE_TRIM1_ARG) {
 		if (card->quirks & MMC_QUIRK_INAND_CMD38) {
@@ -1892,6 +1893,7 @@ retry:
 			if (err)
 				goto out;
 		}
+
 		err = mmc_erase(card, from, nr, MMC_SECURE_TRIM2_ARG);
 	}
 out:

@@ -562,7 +562,6 @@ static void msm_set_termios(struct uart_port *port, struct ktermios *termios,
 		port->read_status_mask |= UART_SR_RX_BREAK;
 
 	uart_update_timeout(port, termios->c_cflag, baud);
-
 	spin_unlock_irqrestore(&port->lock, flags);
 }
 

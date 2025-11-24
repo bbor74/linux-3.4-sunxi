@@ -178,7 +178,6 @@ static int sdio_read_cccr(struct mmc_card *card, u32 ocr)
 				if (data & SDIO_UHS_SDR104)
 					card->sw_caps.sd3_bus_mode
 						|= SD_MODE_UHS_SDR104;
-						
 			}
 
 			ret = mmc_io_rw_direct(card, 0, 0,
