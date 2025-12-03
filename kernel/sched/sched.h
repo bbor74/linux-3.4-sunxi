@@ -245,7 +245,7 @@ struct cfs_rq {
 #endif /* CONFIG_FAIR_GROUP_SCHED */
 /* These always depend on CONFIG_FAIR_GROUP_SCHED */
 #ifdef CONFIG_FAIR_GROUP_SCHED
-    u32 tg_runnable_contrib, tg_usage_contrib;
+	u32 tg_runnable_contrib, tg_usage_contrib;
 	u64 tg_load_contrib;
 #endif /* CONFIG_FAIR_GROUP_SCHED */
 
@@ -257,6 +257,7 @@ struct cfs_rq {
 	 */
 	unsigned long h_load;
 #endif /* CONFIG_SMP */
+
 #ifdef CONFIG_FAIR_GROUP_SCHED
 	struct rq *rq;	/* cpu runqueue to which this cfs_rq is attached */
 

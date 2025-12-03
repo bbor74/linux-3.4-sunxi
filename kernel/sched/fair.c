@@ -42,7 +42,6 @@
 
 #include "sched.h"
 
-
 /*
  * Targeted preemption latency for CPU-bound tasks:
  * (default: 6ms * (1 + ilog(ncpus)), units: nanoseconds)
@@ -1240,6 +1239,7 @@ static inline u64 __synchronize_entity_decay(struct sched_entity *se)
 	if (decays)
 		se->avg.load_avg_contrib = decay_load(se->avg.load_avg_contrib, decays);
 	se->avg.decay_count = 0;
+
 	return decays;
 }
 
@@ -4335,6 +4335,7 @@ migrate_task_rq_fair(struct task_struct *p, int next_cpu)
 {
 	struct sched_entity *se = &p->se;
 	struct cfs_rq *cfs_rq = cfs_rq_of(se);
+
 	/*
 	 * Load tracking: accumulate removed load so that it can be processed
 	 * when we next update owning cfs_rq under rq->lock.  Tasks contribute
@@ -4835,6 +4836,7 @@ int can_migrate_task(struct task_struct *p, struct lb_env *env)
 	 * 1) task is cache cold, or
 	 * 2) too many balance attempts have failed.
 	 */
+
 	tsk_cache_hot = task_hot(p, env->src_rq->clock_task, env->sd);
 	if (!tsk_cache_hot ||
 		env->sd->nr_balance_failed > env->sd->cache_nice_tries) {
@@ -4976,56 +4978,56 @@ next:
  */
 static void __update_blocked_averages_cpu(struct task_group *tg, int cpu)
 {
-        struct sched_entity *se = tg->se[cpu];
-        struct cfs_rq *cfs_rq = tg->cfs_rq[cpu];
+	struct sched_entity *se = tg->se[cpu];
+	struct cfs_rq *cfs_rq = tg->cfs_rq[cpu];
 
-        /* throttled entities do not contribute to load */
-        if (throttled_hierarchy(cfs_rq))
-               return;
+	/* throttled entities do not contribute to load */
+	if (throttled_hierarchy(cfs_rq))
+		return;
 
 	update_cfs_rq_blocked_load(cfs_rq, 1);
 
-        if (se) {
-               update_entity_load_avg(se, 1);
-               /*
-                * We pivot on our runnable average having decayed to zero for
-                * list removal.  This generally implies that all our children
-                * have also been removed (modulo rounding error or bandwidth
-                * control); however, such cases are rare and we can fix these
-                * at enqueue.
-                *
-                * TODO: fix up out-of-order children on enqueue.
-                */
-               if (!se->avg.runnable_avg_sum && !cfs_rq->nr_running)
-                       list_del_leaf_cfs_rq(cfs_rq);
-        } else {
-	       struct rq *rq = rq_of(cfs_rq);
-               update_rq_runnable_avg(rq, rq->nr_running);
-        }
+	if (se) {
+		update_entity_load_avg(se, 1);
+		/*
+		 * We pivot on our runnable average having decayed to zero for
+		 * list removal.  This generally implies that all our children
+		 * have also been removed (modulo rounding error or bandwidth
+		 * control); however, such cases are rare and we can fix these
+		 * at enqueue.
+		 *
+		 * TODO: fix up out-of-order children on enqueue.
+		 */
+		if (!se->avg.runnable_avg_sum && !cfs_rq->nr_running)
+			list_del_leaf_cfs_rq(cfs_rq);
+	} else {
+		struct rq *rq = rq_of(cfs_rq);
+		update_rq_runnable_avg(rq, rq->nr_running);
+	}
 }
 
 static void update_blocked_averages(int cpu)
 {
 	struct rq *rq = cpu_rq(cpu);
-        struct cfs_rq *cfs_rq;
-        unsigned long flags;
+	struct cfs_rq *cfs_rq;
+	unsigned long flags;
 
-        raw_spin_lock_irqsave(&rq->lock, flags);
-        update_rq_clock(rq);
+	raw_spin_lock_irqsave(&rq->lock, flags);
+	update_rq_clock(rq);
 	/*
 	 * Iterates the task_group tree in a bottom up fashion, see
 	 * list_add_leaf_cfs_rq() for details.
 	 */
 	for_each_leaf_cfs_rq(rq, cfs_rq) {
-               /*
-                * Note: We may want to consider periodically releasing
-                * rq->lock about these updates so that creating many task
-                * groups does not result in continually extending hold time.
-                */
-               __update_blocked_averages_cpu(cfs_rq->tg, rq->cpu);
+		/*
+		 * Note: We may want to consider periodically releasing
+		 * rq->lock about these updates so that creating many task
+		 * groups does not result in continually extending hold time.
+		 */
+		__update_blocked_averages_cpu(cfs_rq->tg, rq->cpu);
 	}
 
-        raw_spin_unlock_irqrestore(&rq->lock, flags);
+	raw_spin_unlock_irqrestore(&rq->lock, flags);
 }
 
 /*
@@ -7856,7 +7858,7 @@ const struct sched_class fair_sched_class = {
 
 #ifdef CONFIG_SMP
 	.select_task_rq		= select_task_rq_fair,
-#ifdef CONFIG_FAIR_GROUP_SCHED    
+#ifdef CONFIG_FAIR_GROUP_SCHED
 	.migrate_task_rq	= migrate_task_rq_fair,
 #endif
 	.rq_online		= rq_online_fair,
