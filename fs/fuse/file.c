@@ -665,7 +665,14 @@ static int fuse_readpages_fill(void *_data, struct page *page)
 		}
 	}
 
-#ifdef CONFIG_DMA_CMA
+	/*
+	 * donot replace CMA pages, because it lead to slow response when copy
+	 * large files(>=2G) from udisk(ntfs) to sdcard with dd cmd.
+	 *
+	 * when CMA in high zone, this page is high probability CMA page, which lead
+	 * to high frequent pagecache replace. and finally system stuck.
+	 */
+#if 0
 	if (is_cma_pageblock(page)) {
 		struct page *oldpage = page, *newpage;
 		int err;
