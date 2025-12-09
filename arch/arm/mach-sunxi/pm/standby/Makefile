@@ -99,7 +99,7 @@ endif
 resume1-y := $(addprefix $(obj)/,$(resume1-y))
 
 $(obj)/resume1.code: $(obj)/resume1.bin
-	$(Q)$(obj)/gen_check_code $(obj)/resume1.bin $(obj)/super/resume1.code
+	$(Q)$(srctree)/$(src)/gen_check_code $(obj)/resume1.bin $(obj)/super/resume1.code
 	rm -rf *.o $(obj)/../*.o
 	
 $(obj)/resume1.bin: $(obj)/resume1.elf FORCE
