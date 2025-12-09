@@ -6,7 +6,7 @@
 // 
 ***************************************************************************/
 
-#include "./../../../pm_assembler_i.h"
+#include "./../../pm_assembler_i.h"
 	.text
 	.arm
 	.globl switch2normal

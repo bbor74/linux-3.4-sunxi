@@ -24,7 +24,7 @@
 ; gq.Yang       2012.7.11      1.1.0        build the file
 ;
 ***********************************************************************************************************************/
-#include "./../../../pm_assembler_i.h"
+#include "./../../pm_assembler_i.h"
 
 #define  ARMV7_USR_MODE        0x10
 #define  ARMV7_FIQ_MODE        0x11

@@ -41,8 +41,8 @@ SECTIONS
 {
 	__resume1_start = . ;
 	.text  0x00010000:
-	{	arch/arm/mach-sunxi/pm/standby/super/resume/resume_head.o( .rodata )
-		arch/arm/mach-sunxi/pm/standby/super/resume/resume1.o( .text )
+	{	arch/arm/mach-sunxi/pm/standby/super/resume_head.o( .rodata )
+		arch/arm/mach-sunxi/pm/standby/super/resume1.o( .text )
 		*(.text)
 	}
 	.rodata ALIGN(4): { *(.rodata) }

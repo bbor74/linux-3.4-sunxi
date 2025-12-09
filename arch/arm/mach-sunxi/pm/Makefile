@@ -82,9 +82,9 @@ $(obj)/standby/super/super_twi.o  : $(obj)/pm_tmp_xx.o
 $(obj)/standby/super/super_clock.o: $(obj)/pm_tmp_xx.o
 $(obj)/mem.o			  : $(obj)/pm_tmp_xx.o	
 
-$(obj)/pm_tmp_xx.o			: $(obj)/standby/super/resume/resume1.code $(obj)/standby/standby.code FORCE
+$(obj)/pm_tmp_xx.o			: $(obj)/standby/super/resume1.code $(obj)/standby/standby.code FORCE
 $(obj)/standby.o			: $(obj)/standby/standby.code FORCE
-$(obj)/standby/super/resume/resume1.code: $(obj)/standby/standby.code FORCE
+$(obj)/standby/super/resume1.code: $(obj)/standby/standby.code FORCE
 
 $(obj)/standby/standby.code: FORCE
 	$(Q)$(MAKE) $(build)=$(obj)/standby

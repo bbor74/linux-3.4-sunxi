@@ -70,9 +70,9 @@ resume1-y :=   super/common.o                \
                super/super_clock.o           \
                super/super_power.o           \
                super/super_cpus.o            \
-               super/resume/resume1.o        \
-               super/resume/resume_head.o    \
-               super/resume/resume1_c_part.o \
+               super/resume1.o               \
+               super/resume_head.o           \
+               super/resume1_c_part.o        \
                ../pm_debug.o                 \
                ../mem_timing.o               \
                ../mem_mmu_pc.o               \
@@ -91,7 +91,7 @@ resume1-y :=   super/common.o                \
 
 ifneq ($(strip $(CONFIG_ARCH_SUN8IW6P1) $(CONFIG_ARCH_SUN9IW1P1)),)
 ifneq ($(strip $(CONFIG_SUNXI_TRUSTZONE)),)
-    resume1-y +=    super/resume/monitor.o
+    resume1-y +=    super/monitor.o
 endif
 else
 endif
@@ -99,7 +99,7 @@ endif
 resume1-y := $(addprefix $(obj)/,$(resume1-y))
 
 $(obj)/resume1.code: $(obj)/resume1.bin
-	$(Q)$(obj)/gen_check_code $(obj)/resume1.bin $(obj)/super/resume/resume1.code
+	$(Q)$(obj)/gen_check_code $(obj)/resume1.bin $(obj)/super/resume1.code
 	rm -rf *.o $(obj)/../*.o
 	
 $(obj)/resume1.bin: $(obj)/resume1.elf FORCE
