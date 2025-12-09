@@ -9,6 +9,7 @@ endif
 ifneq ($(strip $(CONFIG_ARCH_SUN8I)),)
 obj-y += sun8i.o
 obj-$(CONFIG_SW_POWERNOW) += powernow.o
+obj-$(CONFIG_PM) += pm/
 obj-$(CONFIG_NET)       += rf/
 endif
 
@@ -37,6 +38,7 @@ obj-y                   += sun9i.o
 obj-$(CONFIG_SMP)       += sun9i-platsmp.o
 obj-$(CONFIG_SUN9I_CCI) += sun9i-cci.o
 obj-$(CONFIG_MCPM)      += sun9i-setup.o sun9i-mcpm.o
+obj-$(CONFIG_PM)        += pm/
 endif
 
 ifeq ($(CONFIG_SMP), y)
@@ -48,7 +50,7 @@ obj-y += sys_config.o sunxi_dump_reg.o sunxi-chip.o sunxi_sram.o
 
 obj-$(CONFIG_SUNXI_TRUSTZONE) += firmware.o
 obj-$(CONFIG_SUNXI_TRUSTZONE) += sunxi-smc.o
-obj-$(CONFIG_PM)        += pm.o
+# obj-$(CONFIG_PM)        += pm.o
 
 ifeq ($(CONFIG_SUNXI_BOOTUP_EXTEND), y)
 obj-y += sunxi_bootup_extend.o

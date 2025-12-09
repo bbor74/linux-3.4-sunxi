@@ -160,7 +160,7 @@ static void early_suspend(struct work_struct *work)
 	}
 	
 	hrtimer_cancel(&earlysuspend_timer);
-	//standby_level = STANDBY_WITH_POWER;
+	standby_level = STANDBY_WITH_POWER;
 	mutex_unlock(&early_suspend_lock);
 
 	if (debug_mask & DEBUG_SUSPEND)
@@ -240,7 +240,7 @@ static void late_resume(struct work_struct *work)
 
 	hrtimer_cancel(&earlysuspend_timer);
 
-	//standby_level = STANDBY_INITIAL;
+	standby_level = STANDBY_INITIAL;
 abort:
 	mutex_unlock(&early_suspend_lock);
 }
