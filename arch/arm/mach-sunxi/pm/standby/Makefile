@@ -59,8 +59,8 @@ $(obj)/standby.code: $(obj)/standby.elf FORCE
 #$(call if_changed,objcopy)
 	rm -rf *.o $(obj)/../*.o
 	
-$(obj)/standby.elf: $(obj)/standby.xn $(standby-y)
-	$(Q)$(CROSS_COMPILE)ld -T $(obj)/standby.xn $(LD_FLAGS) $(LIBS) -EL  $(standby-y) -o $(obj)/standby.elf -Map $(obj)/standby.map	
+$(obj)/standby.elf: $(srctree)/$(src)/standby.xn $(standby-y)
+	$(Q)$(CROSS_COMPILE)ld -T $(srctree)/$(src)/standby.xn $(LD_FLAGS) $(LIBS) -EL  $(standby-y) -o $(obj)/standby.elf -Map $(obj)/standby.map
 	$(Q)$(CROSS_COMPILE)objdump -D $(obj)/standby.elf > $(obj)/standby.lst
 #$(call if_changed,ld)
 	
