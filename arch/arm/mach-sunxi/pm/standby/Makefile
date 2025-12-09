@@ -107,15 +107,15 @@ $(obj)/resume1.bin: $(obj)/resume1.elf FORCE
 	
 
 ifneq ($(strip $(CONFIG_ARCH_SUN9I)),)
-$(obj)/resume1.elf: $(obj)/sun9i_resume1_scatter.scat $(resume1-y)
-	$(Q)$(CROSS_COMPILE)ld -T $(obj)/sun9i_resume1_scatter.scat  -EL  $(resume1-y) -o $(obj)/resume1.elf  -Map $(obj)/resume1.map
+$(obj)/resume1.elf: $(srctree)/$(src)/sun9i_resume1_scatter.scat $(resume1-y)
+	$(Q)$(CROSS_COMPILE)ld -T $(srctree)/$(src)/sun9i_resume1_scatter.scat  -EL  $(resume1-y) -o $(obj)/resume1.elf  -Map $(obj)/resume1.map
 	$(Q)$(CROSS_COMPILE)objdump -D $(obj)/resume1.elf > $(obj)/resume1.lst
 #FIXME: still donot know why command: $(call if_changed,ld) not work well? the output file size is not proper.
 endif
 
 ifneq ($(strip $(CONFIG_ARCH_SUN8I)),)
-$(obj)/resume1.elf: $(obj)/sun8i_resume1_scatter.scat $(resume1-y)
-	$(Q)$(CROSS_COMPILE)ld -T $(obj)/sun8i_resume1_scatter.scat  -EL  $(resume1-y) -o $(obj)/resume1.elf  -Map $(obj)/resume1.map
+$(obj)/resume1.elf: $(srctree)/$(src)/sun8i_resume1_scatter.scat $(resume1-y)
+	$(Q)$(CROSS_COMPILE)ld -T $(srctree)/$(src)/sun8i_resume1_scatter.scat  -EL  $(resume1-y) -o $(obj)/resume1.elf  -Map $(obj)/resume1.map
 	$(Q)$(CROSS_COMPILE)objdump -D $(obj)/resume1.elf > $(obj)/resume1.lst
 #FIXME: still donot know why command: $(call if_changed,ld) not work well? the output file size is not proper.
 endif
