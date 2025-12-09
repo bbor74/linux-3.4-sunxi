@@ -43,10 +43,10 @@ standby-y := 	common.o         	\
 		standby.o
 
 ifneq ($(strip $(CONFIG_SUNXI_ARISC)),)
-standby-y +=	./arisc/standby_arisc.o 	\
-		./arisc/arisc_hwmsgbox.o 	\
-		./arisc/arisc_hwspinlock.o 	\
-		./arisc/arisc_message_manager.o	\
+standby-y +=	standby_arisc.o 	\
+		arisc_hwmsgbox.o 	\
+		arisc_hwspinlock.o 	\
+		arisc_message_manager.o	\
 		./../mem_hwspinlock.o		
 else
 standby-y +=    ./dram/standby.o       

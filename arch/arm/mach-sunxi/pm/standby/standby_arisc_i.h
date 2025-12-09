@@ -22,13 +22,13 @@
 #ifndef	__STANDBY_ARISC_I_H__
 #define	__STANDBY_ARISC_I_H__
 
-#include "./../standby_i.h"
+#include "standby_i.h"
 #include <linux/power/aw_pm.h>
 #include <linux/arisc/hwmsgbox.h>
 #include "arisc_cfgs.h"
 #include "arisc_messages.h"
 #include "arisc_dbgs.h"
-#include "./../standby_arisc.h"
+#include "standby_arisc.h"
 #include "asm-generic/errno-base.h"
 
 extern unsigned long arisc_sram_a2_vbase;
