@@ -3379,7 +3379,7 @@ __s32 _check_magic_physic_info( __u32 *mem_base, char *magic )
 	unsigned char *p;
 
 	bfh = (struct _boot_info *)mem_base;
-	p = bfh->magic;
+	p = (unsigned char*)bfh->magic;
 	for( i = 0, sz = sizeof( bfh->magic );  i < sz;  i++ )
 	{
 		if( *p++ != *magic++ )
@@ -3697,7 +3697,7 @@ __s32 Physic_Info_Read(__u32 sys_mode)
             continue;
         }
 
-		Physic_Info_Get_One_Copy(start_block,pages_offset,&block_per_copy,phyinfo_buf);
+		Physic_Info_Get_One_Copy(start_block,pages_offset,&block_per_copy,(__u32*)phyinfo_buf);
 //		PHY_ERR("start_block %d pages_offset %d block_per_copy %d\n",start_block,pages_offset,block_per_copy);
 		#if 0
 		{
@@ -3713,7 +3713,7 @@ __s32 Physic_Info_Read(__u32 sys_mode)
 		}
 		#endif
 
-		ret_sum = _check_sum_physic_info( phyinfo_buf, PHY_INFO_SIZE);
+		ret_sum = _check_sum_physic_info((__u32*)phyinfo_buf, PHY_INFO_SIZE);
 		if(ret_sum == 0)
 		{
 			PHY_DBG("physic info copy is ok\n");
@@ -3762,7 +3762,7 @@ int Physic_Info_Add_To_Uboot_Tail(__u32 *buf_dst, __u32 uboot_size)
 		phyinfo_buf->nand_specialinfo_offset = 512 * 19;
 	}
 
-	_cal_sum_physic_info(phyinfo_buf, PHY_INFO_SIZE);
+	_cal_sum_physic_info((__u32*)phyinfo_buf, PHY_INFO_SIZE);
 
 	#if 0
 	{
@@ -3883,7 +3883,7 @@ __s32 Get_Hynix_Special_Info(__u32 sys_mode,__u8 * readbuf,__u8 * dstbuf,__u32 l
 		tboot = (struct _boot_info*)readbuf;
 		if(tboot->nand_special_info.data[0] != 0xa5)
 		{
-		    Physic_Info_Get_One_Copy(start_block,pages_offset,&block_per_copy,readbuf);
+		    Physic_Info_Get_One_Copy(start_block,pages_offset,&block_per_copy,(__u32*)readbuf);
 		}
 		
 //		PHY_ERR("start_block %d pages_offset %d block_per_copy %d\n",start_block,pages_offset,block_per_copy);
