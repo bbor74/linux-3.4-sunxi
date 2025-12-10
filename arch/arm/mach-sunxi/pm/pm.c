@@ -538,7 +538,7 @@ static int aw_pm_begin(suspend_state_t state)
 	static int backup_console_loglevel = 0;
 	static __u32 backup_debug_mask = 0;
 
-	PM_DBG("version 2014年09月25日 星期四 09时14分04秒_2b7dd9f33b4db4f767f10ac3e26343b3ed04ce04 %d state begin\n", state);
+	PM_DBG("version 2014-09-25, 09:14:04_2b7dd9f33b4db4f767f10ac3e26343b3ed04ce04 %d state begin\n", state);
 	//set freq max
 #ifdef CONFIG_CPU_FREQ_USR_EVNT_NOTIFY
 	//cpufreq_user_event_notify();
