@@ -29,14 +29,14 @@ volatile __u32 irq_value = 0;
 
 
 __u8 read_retry_reg_adr[READ_RETRY_MAX_REG_NUM] = {0};
-__u8 read_retry_default_val[1][MAX_CHIP_SELECT_CNT][READ_RETRY_MAX_REG_NUM] = {0};
-__s16 read_retry_val[READ_RETRY_MAX_CYCLE][READ_RETRY_MAX_REG_NUM] = {0};
-__u8 hynix_read_retry_otp_value[1][MAX_CHIP_SELECT_CNT][8][8] = {0};
+__u8 read_retry_default_val[1][MAX_CHIP_SELECT_CNT][READ_RETRY_MAX_REG_NUM] = {{{0}}};
+__s16 read_retry_val[READ_RETRY_MAX_CYCLE][READ_RETRY_MAX_REG_NUM] = {{0}};
+__u8 hynix_read_retry_otp_value[1][MAX_CHIP_SELECT_CNT][8][8] = {{{{0}}}};
 __u8 read_retry_mode = {0};
 __u8 read_retry_cycle = {0};
 __u8 read_retry_reg_num = {0};
 
-__u8 hynix16nm_read_retry_otp_value[1][MAX_CHIP_SELECT_CNT][8][4] = {0};
+__u8 hynix16nm_read_retry_otp_value[1][MAX_CHIP_SELECT_CNT][8][4] = {{{{0}}}};
 
 __u32 toshiba15nm_rr_start_flag = 0;
 
