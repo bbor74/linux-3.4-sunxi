@@ -828,7 +828,9 @@ static int aw_early_suspend(void)
 	save_pm_secure_mem_status(BEFORE_EARLY_SUSPEND |0xb);
 	if(unlikely(debug_mask&PM_STANDBY_PRINT_STANDBY)){
 		pr_info("standby info: \n");
+#ifdef RESUME_FROM_RESUME1
 		pr_info("resume1_bin_start = 0x%x, resume1_bin_end = 0x%x. \n", (int)&resume1_bin_start, (int)&resume1_bin_end);
+#endif
 		pr_info("resume_code_src = 0x%lx, resume_code_length = %ld. resume_code_length = %lx \n", \
 			super_standby_para_info.resume_code_src, \
 			super_standby_para_info.resume_code_length, \
