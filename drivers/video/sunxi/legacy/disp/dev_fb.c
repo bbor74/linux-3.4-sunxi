@@ -38,7 +38,7 @@ __s32 sunxi_get_fb_addr_para(struct __fb_addr_para *fb_addr_para){
 }
 EXPORT_SYMBOL(sunxi_get_fb_addr_para);
 
-__u32 get_fastboot_mode()
+__u32 get_fastboot_mode(void)
 {
 	return fastboot;
 }
