@@ -2791,6 +2791,7 @@ int nand_find_zone_table(void *p)
     NFTL_ERR("=================================2=======================================\n");
 
     NFTL_ERR("nand_find_zone_table end\n");
+    return 0;
 }
 
 
@@ -2817,6 +2818,7 @@ int write_data_to_nand(struct _nftl_zone* zone)
         __nand_write(zone,i,1,buf);
     }
     nftl_free(buf);
+    return 0;
 }
 
 /*****************************************************************************
