@@ -961,7 +961,7 @@ __s32 dsi_clk_off(void)
 
 __s32 disp_pll_init(void)
 {
-	__hdle pll_hdl;
+//	__hdle pll_hdl;
 
 	disp_mipipll_init();
 

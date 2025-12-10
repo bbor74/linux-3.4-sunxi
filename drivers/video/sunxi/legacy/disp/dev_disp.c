@@ -913,7 +913,9 @@ extern __s32 disp_mipipll_enable(__u32 en);
 int disp_suspend(struct platform_device *pdev, pm_message_t state)
 {
 	int i = 0;
+#ifndef CONFIG_HAS_EARLYSUSPEND
 	int r_count = 0;
+#endif
 	int num_screens;
 
 	num_screens = bsp_disp_feat_get_num_screens();
