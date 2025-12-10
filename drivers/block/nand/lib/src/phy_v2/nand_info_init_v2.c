@@ -1937,11 +1937,11 @@ int build_all_phy_partition_v2(struct _nand_info*nand_info)
 *****************************************************************************/
 int print_mbr_data(uchar* mbr_data)
 {
-    
+    int i;//,m
     PARTITION_MBR* mbr = (PARTITION_MBR*)mbr_data;
     NAND_PARTITION* part;
     NFTL_ERR("[NE]mbr->PartCount: %d!\n",mbr->PartCount);
-    int i;//,m
+
     for(i=0; i<ND_MAX_PARTITION_COUNT; i++)
     {
         part = (NAND_PARTITION*)(&mbr->array[i]);
