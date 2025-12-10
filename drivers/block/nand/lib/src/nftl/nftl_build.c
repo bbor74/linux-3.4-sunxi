@@ -2771,7 +2771,7 @@ int nand_clean_zone_table(void *p)
 *Return       :
 *Note         :
 *****************************************************************************/
-int nand_find_zone_table(void *p)
+void nand_find_zone_table(void *p)
 {
     struct _nftl_zone *zone = (struct _nftl_zone *)p;
 
@@ -2791,7 +2791,6 @@ int nand_find_zone_table(void *p)
     NFTL_ERR("=================================2=======================================\n");
 
     NFTL_ERR("nand_find_zone_table end\n");
-    return 0;
 }
 
 
@@ -2804,7 +2803,7 @@ int nand_find_zone_table(void *p)
 *Note         :
 *****************************************************************************/
 extern uint32 __nand_write(struct _nftl_zone* zone,uint32 start_sector,uint32 len,uchar *buf);
-int write_data_to_nand(struct _nftl_zone* zone)
+void write_data_to_nand(struct _nftl_zone* zone)
 {
     uchar * buf;
     int i;
@@ -2818,7 +2817,6 @@ int write_data_to_nand(struct _nftl_zone* zone)
         __nand_write(zone,i,1,buf);
     }
     nftl_free(buf);
-    return 0;
 }
 
 /*****************************************************************************
