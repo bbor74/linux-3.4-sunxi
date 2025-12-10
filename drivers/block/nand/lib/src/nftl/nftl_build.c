@@ -68,43 +68,43 @@ int zone_param_init(struct _nftl_zone *zone,uint16 start_block,uint32 logic_sect
     zone->current_block.user_info.map_size = zone->nand_chip->pages_per_blk << 2;
     zone->current_block.user_info.smart_size = 320;
     zone->current_block.user_info.buf_size = zone->current_block.user_info.map_size + zone->current_block.user_info.smart_size;
-    zone->current_block.user_info.buf = (uint32*)nftl_malloc(zone->current_block.user_info.buf_size);
+    zone->current_block.user_info.buf = (uchar*)nftl_malloc(zone->current_block.user_info.buf_size);
     if (zone->current_block.user_info.buf == NULL)
     {
         NFTL_ERR("[NE] zone_param_init error3\n");
         return -ENOMEM;
     }
 
-    zone->current_block.user_info.map_data = zone->current_block.user_info.buf;
-    zone->current_block.user_info.smart = zone->current_block.user_info.buf + zone->current_block.user_info.map_size;
+    zone->current_block.user_info.map_data = (uint32*)zone->current_block.user_info.buf;
+    zone->current_block.user_info.smart = (_smart*)(zone->current_block.user_info.buf + zone->current_block.user_info.map_size);
     zone->smart = zone->current_block.user_info.smart;
     MEMSET(zone->current_block.user_info.buf,0xff,zone->current_block.user_info.buf_size);
 
     zone->assist_block.user_info.map_size = zone->current_block.user_info.map_size;
     zone->current_block.user_info.smart_size = zone->current_block.user_info.smart_size;
     zone->assist_block.user_info.buf_size = zone->current_block.user_info.buf_size;
-    zone->assist_block.user_info.buf = (uint32*)nftl_malloc(zone->assist_block.user_info.buf_size);
+    zone->assist_block.user_info.buf = (uchar*)nftl_malloc(zone->assist_block.user_info.buf_size);
     if (zone->assist_block.user_info.buf == NULL)
     {
         NFTL_ERR("[NE] zone_param_init error4\n");
         return -ENOMEM;
     }
-    zone->assist_block.user_info.map_data = zone->assist_block.user_info.buf;
-    zone->assist_block.user_info.smart = zone->assist_block.user_info.buf + zone->assist_block.user_info.map_size;
+    zone->assist_block.user_info.map_data = (uint32*)zone->assist_block.user_info.buf;
+    zone->assist_block.user_info.smart = (_smart*)(zone->assist_block.user_info.buf + zone->assist_block.user_info.map_size);
     MEMSET(zone->assist_block.user_info.buf,0xff,zone->assist_block.user_info.buf_size);
 
     zone->zone_phy_page_map_for_gc.map_size = zone->current_block.user_info.map_size;
     zone->zone_phy_page_map_for_gc.smart_size = zone->current_block.user_info.smart_size;
     zone->zone_phy_page_map_for_gc.buf_size = zone->current_block.user_info.buf_size;
-    zone->zone_phy_page_map_for_gc.buf = (uint32*)nftl_malloc(zone->zone_phy_page_map_for_gc.buf_size);
+    zone->zone_phy_page_map_for_gc.buf = (uchar*)nftl_malloc(zone->zone_phy_page_map_for_gc.buf_size);
     if (zone->zone_phy_page_map_for_gc.buf == NULL)
     {
         NFTL_ERR("[NE] zone_param_init error5\n");
         return -ENOMEM;
     }
 
-    zone->zone_phy_page_map_for_gc.map_data = zone->zone_phy_page_map_for_gc.buf;
-    zone->zone_phy_page_map_for_gc.smart = zone->zone_phy_page_map_for_gc.buf + zone->zone_phy_page_map_for_gc.map_size;
+    zone->zone_phy_page_map_for_gc.map_data = (uint32*)zone->zone_phy_page_map_for_gc.buf;
+    zone->zone_phy_page_map_for_gc.smart = (_smart*)(zone->zone_phy_page_map_for_gc.buf + zone->zone_phy_page_map_for_gc.map_size);
 
 //  zone->prio_gc.zone_phy_page_map_for_prio = (_phy_page_mapping*)nftl_malloc(sizeof(_phy_page_mapping));
 //  if (zone->prio_gc.zone_phy_page_map_for_prio == NULL)
@@ -2081,7 +2081,7 @@ uint32 init_smart_info(struct _nftl_zone * zone,_phy_block_info* phy_block_ptr)
 
     if(is_phy_mapping_page(spare_data) == NFTL_YES)
     {
-        user_info.smart = zone->temp_page_buf + zone->current_block.user_info.map_size;
+        user_info.smart = (_smart*)(zone->temp_page_buf + zone->current_block.user_info.map_size);
         if(user_info.smart->version == SMART_VERSION)
         {
             MEMCPY(zone->smart,user_info.smart,sizeof(_smart));
