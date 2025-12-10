@@ -144,9 +144,9 @@ exit:
 static int esp_gpio_ctrl(char* name, int level)
 {
 	int i = 0;
-	int ret = 0;
+//	int ret = 0;
 	int gpio = 0;
-	unsigned long flags = 0;
+//	unsigned long flags = 0;
 	char * gpio_name[2] = {"esp_wl_chip_en", "esp_wl_rst"};
 
   for (i = 0; i < 2; i++) {
