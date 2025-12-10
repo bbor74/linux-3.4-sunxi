@@ -1411,7 +1411,7 @@ int free_nrc(struct _nand_rebuild_cache *nrc)
 _phy_block_info* cross_talk_rebuild_current_block(struct _nftl_zone* zone,_phy_block_info* block1, _phy_block_info* block2)
 {
     uint32 dat_tmp1,dat_tmp2,ecc1,ecc2,i,logic_page,page;//j,m,ret,
-    uint32 erase_counter,erase_counter2;
+    uint32 erase_counter,erase_counter2 = 0;
     _phy_block_info* block;
     _phy_block_info* block_temp;
     uchar spare_data[BYTES_OF_USER_PER_PAGE];
