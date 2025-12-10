@@ -97,7 +97,7 @@ struct _nftl_blk* del_last_nftl_blk(struct _nftl_blk*head)
 int nftl_initialize(struct _nftl_blk *nftl_blk,int no)
 {
 	struct _nand_partition *nand = nftl_blk->nand;
-	int error = 0;
+//	int error = 0;
 	uint32 ret;
 
 	if (nand->spare_bytes < MIN_BYTES_OF_USER_PER_PAGE)

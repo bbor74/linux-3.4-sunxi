@@ -158,7 +158,7 @@ int PhysicBlockErase(unsigned short nDieNum, unsigned short nBlkNum)
 int BlockCheck(unsigned short nDieNum, unsigned short nBlkNum)
 {
     int ret = 0;
-    unsigned char spare[BYTES_OF_USER_PER_PAGE];
+//    unsigned char spare[BYTES_OF_USER_PER_PAGE];
 
 //  spare[0] = 0xff;
 //    PHY_VirtualPageRead(nDieNum,nBlkNum,0, 0,NULL,spare);

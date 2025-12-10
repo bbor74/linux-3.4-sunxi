@@ -689,7 +689,7 @@ uint32 init_zone_after_first_scan(struct _nftl_zone * zone,uint32 block_nums)
 uint32 second_scan_all_blocks(struct _nftl_zone * zone)
 {
     uchar spare_data[BYTES_OF_USER_PER_PAGE];
-    uint32 last_block_used_count,dat_tmp1,ecc,ret,max_block_used_count;
+    uint32 last_block_used_count,ret,max_block_used_count;//dat_tmp1,ecc,
     _physic_op_par phy_op_par;
     _phy_block_info* p_phy_block_info;
     _phy_block_info* p_phy_block_info_tmp;
@@ -1352,7 +1352,7 @@ uint32 do_write_error_in_build_list(struct _nftl_zone* zone,_phy_block_info* blo
 *****************************************************************************/
 int init_nrc(struct _nftl_zone* zone,struct _nand_rebuild_cache **nrc)
 {
-    int i,j;
+    int i;//,j
 
     *nrc = (struct _nand_rebuild_cache *)nftl_malloc(sizeof(struct _nand_rebuild_cache));
     if(*nrc == 0)
@@ -1410,12 +1410,12 @@ int free_nrc(struct _nand_rebuild_cache *nrc)
 *****************************************************************************/
 _phy_block_info* cross_talk_rebuild_current_block(struct _nftl_zone* zone,_phy_block_info* block1, _phy_block_info* block2)
 {
-    uint32 dat_tmp1,dat_tmp2,ecc1,ecc2,i,j,m,logic_page,ret,page;
+    uint32 dat_tmp1,dat_tmp2,ecc1,ecc2,i,logic_page,page;//j,m,ret,
     uint32 erase_counter,erase_counter2;
     _phy_block_info* block;
     _phy_block_info* block_temp;
     uchar spare_data[BYTES_OF_USER_PER_PAGE];
-    _physic_op_par phy_op_par;
+//    _physic_op_par phy_op_par;
     _physic_op_par phy_op_par2;
     struct _nand_rebuild_cache *nrc = NULL;
 
@@ -1554,8 +1554,8 @@ request_free_block:
 *****************************************************************************/
 _phy_block_info* no_cross_talk_rebuild_current_block(struct _nftl_zone* zone,_phy_block_info* block1, _phy_block_info* block2)
 {
-    uint32 dat_tmp1,dat_tmp2,ecc1,ecc2,i,j,m,logic_page,ret,page;
-    uint32 erase_counter,erase_counter2;
+    uint32 dat_tmp1,dat_tmp2,ecc1,ecc2,i,logic_page,ret,page;//j,m,
+    uint32 erase_counter;//,erase_counter2
     _phy_block_info* block;
     _phy_block_info* block_temp;
     uchar spare_data[BYTES_OF_USER_PER_PAGE];
@@ -1921,7 +1921,7 @@ uint32 get_used_page_num(struct _nftl_zone * zone,_phy_block_info* phy_block_ptr
 *****************************************************************************/
 uint32 get_used_page_num_no_crosstalk(struct _nftl_zone * zone,_phy_block_info* phy_block_ptr,uint32 *ecc,struct _nand_rebuild_cache* nrc)
 {
-    uint32 i,j,num,ret;
+    uint32 i,num,ret;//j,
     uchar spare_data[BYTES_OF_USER_PER_PAGE];
     _physic_op_par phy_op_par;
     uchar *mbuf;
@@ -2030,7 +2030,7 @@ uint32 get_used_page_num_no_crosstalk(struct _nftl_zone * zone,_phy_block_info* 
 *****************************************************************************/
 uint32 check_cross_talk(struct _nftl_zone * zone,_phy_block_info* phy_block_ptr)
 {
-    uint32 i,j,num,ret;
+    uint32 i,ret;//j,num,
     uchar spare_data[BYTES_OF_USER_PER_PAGE];
     _physic_op_par phy_op_par;
     uchar *mbuf = zone->temp_page_buf;
@@ -2657,7 +2657,7 @@ void clean_block_list(struct _nftl_zone* zone)
 *****************************************************************************/
 int nand_clean_zone_table2(struct _nftl_zone *zone)
 {
-    uint32 i,buf_nums,total_pages,len,bytes,total_bytes;
+    uint32 i,buf_nums,total_pages,bytes,total_bytes;//len,
 
     total_pages = zone->logic_cap_in_sects / zone->nand_chip->sector_per_page;
     total_bytes = total_pages * sizeof(_mapping_page);
@@ -2751,7 +2751,7 @@ int nand_clean_zone_table(void *p)
 {
     struct _nftl_zone *zone = (struct _nftl_zone *)p;
 
-    uint32 i,buf_nums,total_pages,len,bytes,total_bytes;
+//    uint32 i,buf_nums,total_pages,len,bytes,total_bytes;
 
     __nand_flush_write_cache(zone,1000);
 

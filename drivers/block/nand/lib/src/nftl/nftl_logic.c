@@ -432,7 +432,7 @@ write_data:
 int write_phy_page_map_to_current_block(struct _nftl_zone* zone,_current_block* current_block)
 {
     int ret;
-    uint16 invalid_page_count = 0;
+//    uint16 invalid_page_count = 0;
 
 //    if(current_block->current_used_block != (zone->nand_chip->pages_per_blk -1))
 //        return NFTL_SUCCESS;

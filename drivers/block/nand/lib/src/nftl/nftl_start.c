@@ -19,7 +19,7 @@
 *****************************************************************************/
 int nftl_start(void* priv,void* cfg,struct _nftl_zone ** pzone,uint64 logic_size,uint64 total_size,unsigned erasesize,unsigned writesize,unsigned oobavail,char* name,int no,char type)
 {
-    int error = 0;
+//    int error = 0;
     uint32 size_in_blk,total_block,total_vaild_block,total_pages,temp,i;
     //uint32 phys_erase_shift;
     uint32 ret;

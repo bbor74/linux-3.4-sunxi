@@ -363,9 +363,9 @@ struct _nand_phy_partition* launch_build_phy_partition(struct _nand_info*nand_in
 {
     struct _nand_phy_partition* phy_partition;
     struct _nand_phy_partition* p;
-    uint32 total_blocks,temp1,temp2,factory_bad_count,new_bad_count;
-    unsigned short nDieNum,nBlkNum,PartitionNO,last_phy_partition;
-    int max_free_block_num;
+    uint32 temp1,factory_bad_count,new_bad_count;//total_blocks,temp2,
+    unsigned short nDieNum,nBlkNum,PartitionNO;//,last_phy_partition
+//    int max_free_block_num;
 
     phy_partition = (struct _nand_phy_partition*)nftl_malloc(sizeof(struct _nand_phy_partition));
 

@@ -83,8 +83,8 @@ int read_partition_v3(struct _nand_info*nand_info,struct _boot_info* boot)
 *****************************************************************************/
 int nand_info_init_v3(struct _nand_info*nand_info,uchar chip,uint16 start_block,uchar* mbr_data)
 {
-    unsigned int nDieNum,nBlkNum,nPage,i,nouse;
-    unsigned int ret;
+    unsigned int nouse;//nDieNum,nBlkNum,nPage,i,
+//    unsigned int ret;
     struct _boot_info* boot;
     unsigned int start_block_real = 0;
 
@@ -243,7 +243,7 @@ int nand_info_init_v3(struct _nand_info*nand_info,uchar chip,uint16 start_block,
 *****************************************************************************/
 void print_boot_info(struct _nand_info*nand_info)
 {
-    int i;
+//    int i;
 
     NFTL_DBG("[ND]boot :0x%x\n",nand_info->boot);
     NFTL_DBG("[ND]boot->magic :0x%x\n",nand_info->boot->magic);
@@ -307,10 +307,10 @@ void print_boot_info(struct _nand_info*nand_info)
 *****************************************************************************/
 unsigned int get_no_use_block_v3(struct _nand_info*nand_info,uchar chip,uint16 start_block)
 {
-    unsigned int i,nDieNum,nBlkNum,nPage,block,good;
+    unsigned int i,nDieNum,nBlkNum,nPage,good;//block,
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
-    unsigned int ret;
+//    unsigned int ret;
 
     good = 0;
     nDieNum = chip;
@@ -1221,7 +1221,7 @@ int write_factory_block_table_v2(struct _nand_info*nand_info)
 *****************************************************************************/
 int print_factory_block_table_v2(struct _nand_info*nand_info)
 {
-    int ret,i,nDieNum;
+    int i,nDieNum;//ret,
 
     nDieNum = FACTORY_BAD_BLOCK_SIZE >> 2;
     for(i=0;i<nDieNum;i++)
@@ -1332,7 +1332,7 @@ int write_new_block_table_v2_old(struct _nand_info*nand_info)
 int write_new_block_table_v2_new(struct _nand_info*nand_info)
 {
     int ret;
-    unsigned int nDieNum, nBlkNum, nPage,i;
+    unsigned int nDieNum, nBlkNum,i;// nPage,
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
     unsigned char* buf;
@@ -1369,8 +1369,8 @@ int write_new_block_table_v2_new(struct _nand_info*nand_info)
 
 int write_new_block_table_v2(struct _nand_info*nand_info)
 {
-    int ret;
-    unsigned int nDieNum, nBlkNum, nPage;
+//    int ret;
+    unsigned int nDieNum, nBlkNum;//, nPage
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
     unsigned char* buf;
@@ -1404,7 +1404,7 @@ int write_new_block_table_v2(struct _nand_info*nand_info)
 int write_new_block_table_v2_new_first_build(struct _nand_info*nand_info)
 {
     int ret;
-    unsigned int nDieNum, nBlkNum, nPage,i;
+    unsigned int nDieNum, nBlkNum,i;// nPage,
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
     unsigned char* buf;
@@ -1548,7 +1548,7 @@ unsigned short read_new_bad_block_table_v2(struct _nand_info*nand_info)
 unsigned short read_new_bad_block_table_v2_old(struct _nand_info*nand_info)
 {
     unsigned short num,i;
-    unsigned int nDieNum, nBlkNum, nPage;
+    unsigned int nDieNum, nBlkNum;//, nPage
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
     unsigned char* buf;
@@ -1601,7 +1601,7 @@ unsigned short read_new_bad_block_table_v2_old(struct _nand_info*nand_info)
 unsigned short read_new_bad_block_table_v2_new(struct _nand_info*nand_info)
 {
     unsigned short num,i;
-    unsigned int nDieNum, nBlkNum, nPage;
+    unsigned int nDieNum, nBlkNum;//, nPage
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
     unsigned char* buf;
@@ -1644,8 +1644,8 @@ unsigned short read_new_bad_block_table_v2_new(struct _nand_info*nand_info)
 
 unsigned short read_new_bad_block_table_v2(struct _nand_info*nand_info)
 {
-    unsigned short page_num,i;
-    unsigned int nDieNum, nBlkNum, nPage;
+    unsigned short page_num;//,i
+    unsigned int nDieNum, nBlkNum;//, nPage
     unsigned char spare[BYTES_OF_USER_PER_PAGE];
     uint64 SectBitmap;
     unsigned char* buf;
@@ -1842,7 +1842,7 @@ int get_partition_v2(struct _nand_info*nand_info)
 int get_partition_v3(struct _nand_info*nand_info)
 {
     PARTITION_MBR *mbr;
-    unsigned int part_cnt,part_type,i,m,udisk_part_found;
+    unsigned int part_cnt,m,udisk_part_found;//part_type,i,
 
     mbr = (PARTITION_MBR *)nand_info->mbr_data;
 
@@ -1941,7 +1941,7 @@ int print_mbr_data(uchar* mbr_data)
     PARTITION_MBR* mbr = (PARTITION_MBR*)mbr_data;
     NAND_PARTITION* part;
     NFTL_ERR("[NE]mbr->PartCount: %d!\n",mbr->PartCount);
-    int i,m;
+    int i;//,m
     for(i=0; i<ND_MAX_PARTITION_COUNT; i++)
     {
         part = (NAND_PARTITION*)(&mbr->array[i]);

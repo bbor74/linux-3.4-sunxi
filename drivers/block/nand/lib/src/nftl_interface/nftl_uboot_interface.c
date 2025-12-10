@@ -211,7 +211,7 @@ uint32 get_nftl_cap(void)
 *****************************************************************************/
 uint32 get_first_nftl_cap(void)
 {
-    uint32 cap = 0;
+//    uint32 cap = 0;
     struct _nftl_blk * p;
     p = &nftl_blk_head;
     return p->nftl_blk_next->nftl_logic_size;

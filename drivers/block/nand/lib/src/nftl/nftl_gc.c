@@ -482,7 +482,7 @@ uint32 prio_gc_all(struct _nftl_zone* zone)
 *****************************************************************************/
 uint32 check_static_wear_leveling(struct _nftl_zone* zone)
 {
-    _phy_block_info *p;
+//    _phy_block_info *p;
     _phy_block_info *mim_ec_blk = NULL;
     _phy_block_info *max_ec_blk = NULL;
     uint16 min_ec = 0xffff;
@@ -582,7 +582,7 @@ uint32 check_static_wear_leveling(struct _nftl_zone* zone)
 *****************************************************************************/
 uint32 done_static_wear_leveling(struct _nftl_zone* zone)
 {
-    uint32 ret,i;
+    uint32 ret;//,i
 
     if(!zone->s_wl.block_for_s_wl)
     {
@@ -936,7 +936,7 @@ uint32 gc_all(struct _nftl_zone* zone,uint16 invalid_page_count)
 uint32 gc_win_block(struct _nftl_zone* zone,uint16 block)
 {
     uint32 ret;
-    int  total_invalid_page;
+//    int  total_invalid_page;
     int  win_page_nums = 0;
     int  total_win_page_nums;
 
@@ -971,7 +971,7 @@ uint32 gc_win_block(struct _nftl_zone* zone,uint16 block)
 *****************************************************************************/
 uint32 get_total_invalid_page(struct _nftl_zone* zone)
 {
-    uint32 ret = NFTL_SUCCESS;
+//    uint32 ret = NFTL_SUCCESS;
     _phy_block_info* p;
     int  total_invalid_page = 0;
 

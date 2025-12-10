@@ -218,8 +218,8 @@ uint32 __nand_sector_write(struct _nftl_zone* zone,uint32 start_sector,uint32 le
 uint32 nand_sector_cache_read(struct _nftl_zone* zone,uint32 sector_no,uchar *buf)
 {
     uint32 ret;
-    uint32 start,len;
-    uchar* t_buf;
+    uint32 len;//start,
+//    uchar* t_buf;
     _sector_cache_node * node;
     _sector_cache *cache;
 
@@ -254,8 +254,8 @@ uint32 nand_sector_cache_read(struct _nftl_zone* zone,uint32 sector_no,uchar *bu
 uint32 nand_sector_cache_write(struct _nftl_zone* zone,uint32 sector_no,uchar *buf)
 {
     uint32 ret;
-    uint16 start,len;
-    uchar* t_buf;
+    uint16 len;//start,
+//    uchar* t_buf;
     _sector_cache_node * node;
     _sector_cache *cache;
 
@@ -314,7 +314,7 @@ uint32 nand_sector_cache_write(struct _nftl_zone* zone,uint32 sector_no,uchar *b
 uint32 __nand_flush_sector_write_cache(struct _nftl_zone* zone,uint32 num)
 {
     uint32 ret,t;
-    uchar* t_buf;
+//    uchar* t_buf;
     _sector_cache_node * node;
     _sector_cache *cache;
 

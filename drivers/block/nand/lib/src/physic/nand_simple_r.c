@@ -2207,13 +2207,13 @@ __s32 PHY_Init(void)
 
 __s32 PHY_GetDefaultParam(__u32 bank,__u8*read_buf)
 {
-	__u32 i, j, chip = 0, rb = 0;
+	__u32 j, chip = 0, rb = 0;//i,
 	__u8 default_value[64];
 	__u8 oob_buf[64];
 	__u8 *oob, *pdata;
-	__s32 ret, otp_ok_flag = 0;
-	__u8 *data_ff_buf;
-	struct boot_physical_param nand_op;
+	__s32 otp_ok_flag = 0;//ret,
+//	__u8 *data_ff_buf;
+//	struct boot_physical_param nand_op;
 	__s32 sys_mode;
 
     chip = _cal_real_chip(bank);
@@ -3668,7 +3668,7 @@ __s32 Clean_Physic_Info(void)
 
 __s32 Physic_Info_Read(__u32 sys_mode)
 {
-	__u32 copy;
+//	__u32 copy;
 	__s32 ret,ret_sum,ret_flag ;
 	__u32 pages_offset;
 	__u32 start_block,block_per_copy;
@@ -3816,8 +3816,8 @@ __u32 is_uboot_block(__u32 sys_mode,__u32 block, char* uboot_buf)
 __s32 Set_Hynix_Special_Info()
 {
 	__u32 i;
-    __u8 *temp_buf;
-	struct _boot_info *tboot;
+//    __u8 *temp_buf;
+//	struct _boot_info *tboot;
 	__u8 sum;
 	__u32 len;
 	__u8 * srcbuf;
@@ -3857,8 +3857,8 @@ __s32 Set_Hynix_Special_Info()
 
 __s32 Get_Hynix_Special_Info(__u32 sys_mode,__u8 * readbuf,__u8 * dstbuf,__u32 len,__u32 chip)
 {
-	__u32 copy,i;
-	__s32 ret,ret_sum,ret_flag ;
+	__u32 i;//copy,
+	__s32 ret,ret_flag;//ret_sum,
 	__u32 pages_offset;
 	__u32 start_block,block_per_copy;
 	struct _boot_info *tboot;

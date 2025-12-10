@@ -692,7 +692,7 @@ __s32 _UpdateExtAccessFreqPara(void)
 *****************************************************************************/
 __s32 NAND_SetPhyArch_V3(uchar *ram_arch,struct __NandStorageInfo_t *phy_arch)
 {
-    int i;
+//    int i;
     MEMCPY(ram_arch, phy_arch, sizeof(struct __NandStorageInfo_t));
     
 //    PHY_ERR("===========NAND_SetPhyArch_V3================\n");
@@ -745,8 +745,8 @@ __s32 NAND_UpdatePhyArch(void)
 __s32 NAND_ReadPhyArch(void)
 {
 	__s32 ret = 0;
-    struct __NandStorageInfo_t old_storage_info = {0};
-    __u32 good_blk_no;
+//    struct __NandStorageInfo_t old_storage_info = {0};
+//    __u32 good_blk_no;
 
     if(phyinfo_buf->storage_info.data.PlaneCntPerDie != 0)
     {

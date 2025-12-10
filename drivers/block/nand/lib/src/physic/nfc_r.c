@@ -521,7 +521,7 @@ __s32 _check_ecc(__u32 eblock_cnt)
 {
 	__u32 i;
 	__u32 ecc_mode;
-	__u32 max_ecc_bit_cnt = 16;
+//	__u32 max_ecc_bit_cnt = 16;
 	__u32 cfg;
 	__u32 ecc_cnt_w[8];//ecc_cnt_w[4];
 	__u8 *ecc_cnt;
@@ -3117,7 +3117,7 @@ __s32 _get_read_retry_cfg(__u8 *rr_cnt, __u8 *rr_reg_cnt, __u8 *rr_tab, __u8 *ot
 __s32 _read_otp_info_hynix(__u32 chip, __u8 *otp_chip)
 {
 	__u32 rb_index;
-	__u32 i, j,ndie;
+	__u32 i,ndie;// j,
 	__u8 *otp;
 	__u8 abuf[8]={0};
 	__u32 cfg;
@@ -3385,7 +3385,7 @@ __s32 _get_rr_value_otp_hynix(__u32 nchip)
 //for offset from defaul value
 __s32 NFC_ReadRetry(__u32 chip, __u32 retry_count, __u32 read_retry_type)
 {
-    __u32 i,j;
+    __u32 i;//,j
     __s32 ret=0;
 	__u32 toggle_mode_flag = 0;
     __s16 temp_val;

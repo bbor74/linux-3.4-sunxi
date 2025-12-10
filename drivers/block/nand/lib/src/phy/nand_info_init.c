@@ -45,7 +45,7 @@ int nand_info_init_v1(struct _nand_info*nand_info,uchar chip,uint16 start_block,
 	unsigned int nDieNum,nBlkNum,nPage;
 	unsigned char spare[BYTES_OF_USER_PER_PAGE];
 	uint64 SectBitmap;
-	unsigned int ret;
+//	unsigned int ret;
 	unsigned int bytes_per_page;
 
 	bytes_per_page = nand_info->SectorNumsPerPage;
@@ -411,7 +411,7 @@ int write_factory_block_table(struct _nand_info*nand_info)
 *****************************************************************************/
 int print_factory_block_table(struct _nand_info*nand_info)
 {
-    int ret,i,nDieNum;
+    int i,nDieNum;//ret,
 
 	nDieNum = FACTORY_BAD_BLOCK_SIZE >> 2;
 	for(i=0;i<nDieNum;i++)
@@ -528,7 +528,7 @@ int write_no_use_block(struct _nand_info*nand_info)
 unsigned short read_new_bad_block_table(struct _nand_info*nand_info)
 {
     unsigned short num,i;
-	unsigned int nDieNum, nBlkNum, nPage;
+	unsigned int nDieNum, nBlkNum;//, nPage
 	unsigned char spare[BYTES_OF_USER_PER_PAGE];
 	uint64 SectBitmap;
 	unsigned char* buf;

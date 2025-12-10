@@ -686,10 +686,10 @@ __u32 uboot_info_init(void)
 {
     int ret,blcok_offset,block_cnt;
     char * uboot_buf;
-	__u32 pages,i;
+	__u32 i;//pages,
 	__u32 jump_size;
 	__u32 size_per_page;
-	__u32 uboot_size;
+//	__u32 uboot_size;
 	__u32 lsb_pages;
 	char  block_flag[40];
 	__u8 flag = 0;
@@ -802,7 +802,7 @@ int nand_read_uboot_one(unsigned char *buf,unsigned char *sbuf,unsigned int coun
     int ret;
     __u32 i,j, k,ecc_limit,ecc_error;
     __u8  oob_buf[32];
-    __u32 pages, pages_per_block, page_size,next_block;
+    __u32 pages, page_size,next_block;//pages_per_block,
     struct boot_physical_param  para;
     __u32 many_block[24];
 
@@ -976,8 +976,8 @@ int nand_write_uboot_one(unsigned char *buf,unsigned char *sbuf,unsigned int cou
 {
     int ret;
     __u32 i,j, k,ecc_limit,ecc_error;
-    __u8  oob_buf[32];
-    __u32 pages, pages_per_block, page_size,next_block;
+//    __u8  oob_buf[32];
+    __u32 pages, page_size,next_block;//pages_per_block,
     struct boot_physical_param  para;
     __u32 many_block[24];
 
@@ -1095,9 +1095,9 @@ write_uboot_one_end:
 int nand_clean_uboot_one(unsigned char *buf,unsigned char *sbuf,unsigned int counter)
 {
     int ret;
-    __u32 i,j, k,ecc_limit,ecc_error;
-    __u8  oob_buf[32];
-    __u32 pages, pages_per_block, page_size,next_block;
+    __u32 i,k,ecc_limit,ecc_error;//j,
+//    __u8  oob_buf[32];
+    __u32 pages, page_size,next_block;//pages_per_block,
     struct boot_physical_param  para;
     __u32 many_block[24];
 
@@ -1311,7 +1311,7 @@ int nand_check_nboot(unsigned char *buf,unsigned int len)
 {
     int i;
     int num = 0;
-    int counter;
+//    int counter;
     int flag[NAND_NBOOT_BLK_CNT];
 
     for(i=0; i<NAND_NBOOT_BLK_CNT; i++)
@@ -1367,7 +1367,7 @@ void check_phyisc(void)
 {
     __u32 len;
     char* buf;
-    char  sbuf[64];
+//    char  sbuf[64];
 
     PHY_ERR(" check_phyisc start.\n");
 

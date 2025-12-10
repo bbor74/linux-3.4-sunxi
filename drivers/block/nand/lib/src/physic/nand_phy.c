@@ -4662,10 +4662,10 @@ __s32  PHY_ReadNandUniqueId(__s32 bank, void *pChipID)
 __s32 PHY_Nand_Sorting_scan_badblock_info(__u32* address)
 {
 	struct boot_physical_param readop;
-	__s32 page_num;
+//	__s32 page_num;
 	__u32 chip_addr[MAX_CHIP_SELECT_CNT]={0};
-	__u32 i,j,m,lsb_page_type,blk,start_block;
-	__u32 block_num,page_cnt_per_phy_block,chip_cnt;
+	__u32 lsb_page_type,blk,start_block;//i,j,m,
+	__u32 block_num,chip_cnt;//page_cnt_per_phy_block,
 	__u32 ecc_mode;
 	__s32 ret=0;
 	__u32 oob_buf[16]={0};
@@ -4758,7 +4758,7 @@ __s32 PHY_NAND_Sorting_Init(void)
 __s32 PHY_Nand_Sorting_IsBadblock(__u32 chip_num,__u32 blk_num)
 {
 	__s32 bad_flag = 0;
-	__u32 pagesize_type,page_size;
+	__u32 page_size;//pagesize_type,
 
 	if(Support_nand_sorting==1)
 	{
