@@ -567,7 +567,7 @@ struct __NandPhyInfoPar_t MacronixNandTbl[] =
     { {0xc2, 0xdc, 0x90, 0x95, 0x57, 0xff, 0xff, 0xff }, 1,     4,      64,     4096,   0x00028c,   944,    30,     2,           0,    0,   &PhysicArchiPara4,  &DefDDRInfo,    0x0a0003 ,40000}, //MX30LF4G28AB
     { {0xc2, 0xf1, 0x80, 0x95, 0x02, 0xff, 0xff, 0xff }, 1,     4,      64,     1024,   0x4000008c, 944,    30,     0,           0,    0,   &PhysicArchiPara10, &DefDDRInfo,    0x0a0004 ,40000}, //MX30LF1G18AC
     { {0xc2, 0xdc, 0x90, 0x95, 0x56, 0xff, 0xff, 0xff }, 1,     4,      64,     4096,   0x00008c,   944,    30,     0,           0,    0,   &PhysicArchiPara4,  &DefDDRInfo,    0x0a0005 ,40000}, //MX30LF4G18AC
-    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,           0,             0xffffff}, //default
+    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,  (struct __OptionalPhyOpPar_t *)0, (struct __NfcInitDdrInfo*) 0xffffff}, //default
 };
 
 //==============================================================================
@@ -578,7 +578,7 @@ struct __NandPhyInfoPar_t WinbondNandTbl[] =
     //                    NAND_CHIP_ID                DieCnt SecCnt  PagCnt   BlkCnt     OpOpt      DatBlk  Freq   EccMode ReadRetry DDRType   OperationPar       
     //-----------------------------------------------------------------------------------------------------------------------
     { {0xef, 0xf1, 0x80, 0x95, 0xff, 0xff, 0xff, 0xff }, 1,     4,      64,     1024,   0x4000008c, 944,    25,     0,           0,    0,   &PhysicArchiPara10, &DefDDRInfo,    0x0b0000 ,40000}, //W29N01GV
-    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,           0,             0xffffff}, //default
+    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,  (struct __OptionalPhyOpPar_t *)0, (struct __NfcInitDdrInfo*) 0xffffff}, //default
 };
 
 //==============================================================================
@@ -590,7 +590,7 @@ struct __NandPhyInfoPar_t FidelixNandTbl[] =
     //-----------------------------------------------------------------------------------------------------------------------
     { {0xf8, 0xf1, 0x80, 0x91, 0xff, 0xff, 0xff, 0xff }, 1,     4,      64,     1024,   0x4000008c, 944,    25,     0,           0,    0,   &PhysicArchiPara10, &DefDDRInfo,    0x0c0000 ,40000}, //FMND1G08U3B
     { {0xf8, 0xda, 0x90, 0x91, 0x46, 0xff, 0xff, 0xff }, 1,     4,      64,     2048,   0x0000008c, 944,    25,     0,           0,    0,   &PhysicArchiPara4,  &DefDDRInfo,    0x0c0001 ,40000}, //FMND2G08U3B
-    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,           0,             0xffffff}, //default
+    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,  (struct __OptionalPhyOpPar_t *)0, (struct __NfcInitDdrInfo*) 0xffffff}, //default
 };
 
 //==============================================================================
@@ -604,7 +604,7 @@ struct __NandPhyInfoPar_t EsmtNandTbl[] =
     { {0xc8, 0xda, 0x90, 0x95, 0x44, 0xff, 0xff, 0xff }, 1,     4,      64,     2048,   0x0000008c, 944,    30,     0,           0,    0,   &PhysicArchiPara2,   &DefDDRInfo,   0x0d0001 ,60000}, //F59L2G81A
     { {0xc8, 0xdc, 0x90, 0x95, 0x54, 0xff, 0xff, 0xff }, 1,     4,      64,     4096,   0x0000008c, 944,    30,     0,           0,    0,   &PhysicArchiPara2,   &DefDDRInfo,   0x0d0002 ,60000}, //F59L4G81A
     { {0xc8, 0xd1, 0x80, 0x95, 0x42, 0xff, 0xff, 0xff }, 1,     4,      64,     1024,   0x4000008c, 944,    30,     0,           0,    0,   &PhysicArchiPara10,  &DefDDRInfo,   0x0d0003 ,60000}, //PSU1GA30BT
-    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,           0,             0xffffff}, //default
+    { {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }, 0,     0,       0,        0,   0x000000,     0,     0,     0,           0,    0,  (struct __OptionalPhyOpPar_t *)0, (struct __NfcInitDdrInfo*) 0xffffff}, //default
 };
 
 //==============================================================================
