@@ -1231,7 +1231,7 @@ int nand_check_uboot(unsigned char *buf,unsigned char *sbuf)
         if(boot->magic != PHY_INFO_MAGIC)
         {
             PHY_ERR("recover boot data\n");
-            _cal_sum_physic_info(aw_nand_info.boot,PHY_INFO_SIZE);
+            _cal_sum_physic_info((__u32*)aw_nand_info.boot,PHY_INFO_SIZE);
             MEMCPY(boot,aw_nand_info.boot,PHY_INFO_SIZE);
         }
     }
