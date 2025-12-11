@@ -230,9 +230,9 @@ static u16 y_new = 0;
 												  \nAUTHOR :mbgalex@163.com \
 												  \nVERSION:2013-10-29_19:45\n"
 												  
-static int ctp_gslX680_new =0;
+//static int ctp_gslX680_new =0;
 
-static int gsl_chipType_new = 0;
+//static int gsl_chipType_new = 0;
 static int ctp_cob_gslX680 = 0;
 static int screen_max_x = 0;
 static int screen_max_y = 0;
