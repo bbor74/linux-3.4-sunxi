@@ -150,7 +150,7 @@ EXPORT_SYMBOL_GPL(axp_reads);
 
 int axp_set_bits(struct device *dev, int reg, uint8_t bit_mask)
 {
-	uint8_t reg_val;
+	uint8_t reg_val = 0;
 	int ret = 0;
 	struct axp_dev *chip;
 	unsigned char devaddr = RSB_RTSADDR_AXP809;
@@ -186,7 +186,7 @@ EXPORT_SYMBOL_GPL(axp_set_bits);
 
 int axp_clr_bits(struct device *dev, int reg, uint8_t bit_mask)
 {
-	uint8_t reg_val;
+	uint8_t reg_val = 0;
 	int ret = 0;
 	struct axp_dev *chip;
 	unsigned char devaddr = RSB_RTSADDR_AXP809;
@@ -224,7 +224,7 @@ EXPORT_SYMBOL_GPL(axp_clr_bits);
 int axp_update(struct device *dev, int reg, uint8_t val, uint8_t mask)
 {
 	struct axp_dev *chip = dev_get_drvdata(dev);
-	uint8_t reg_val;
+	uint8_t reg_val = 0;
 	int ret = 0;
 	unsigned char devaddr = RSB_RTSADDR_AXP809;
 
@@ -259,7 +259,7 @@ EXPORT_SYMBOL_GPL(axp_update);
 
 int axp_set_bits_sync(struct device *dev, int reg, uint8_t bit_mask)
 {
-	uint8_t reg_val;
+	uint8_t reg_val = 0;
 	int ret = 0;
 	unsigned long irqflags;
 	struct axp_dev *chip;
@@ -295,7 +295,7 @@ EXPORT_SYMBOL_GPL(axp_set_bits_sync);
 
 int axp_clr_bits_sync(struct device *dev, int reg, uint8_t bit_mask)
 {
-	uint8_t reg_val;
+	uint8_t reg_val = 0;
 	int ret = 0;
 	unsigned long irqflags;
 	struct axp_dev *chip;
@@ -332,7 +332,7 @@ EXPORT_SYMBOL_GPL(axp_clr_bits_sync);
 int axp_update_sync(struct device *dev, int reg, uint8_t val, uint8_t mask)
 {
 	struct axp_dev *chip = dev_get_drvdata(dev);
-	uint8_t reg_val;
+	uint8_t reg_val = 0;
 	int ret = 0;
 	unsigned long irqflags;
 	unsigned char devaddr = RSB_RTSADDR_AXP809;
