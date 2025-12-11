@@ -1404,7 +1404,7 @@ static void gsl_load_fw(struct i2c_client *client)
 	u8 *cur = buf + 1;
 	u32 source_line = 0;
 	u32 source_len;
-	struct fw_data *ptr_fw;
+	const struct fw_data *ptr_fw;
 	
 	u8 read_buf[4] = {0};
 
