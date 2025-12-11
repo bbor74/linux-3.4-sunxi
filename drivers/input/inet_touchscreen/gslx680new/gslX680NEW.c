@@ -2569,8 +2569,10 @@ static int gsl_config_write_proc(struct file *file, const char *buffer, unsigned
 {
 	u8 buf[8] = {0};
 	//u8 addr = 0;
+#ifdef GSL_NOID_VERSION
 	int tmp = 0;
 	int tmp1 = 0;
+#endif
 	//print_info("[tp-gsl][%s] \n",__func__);
 	
 	if(count > CONFIG_LEN)
@@ -2724,8 +2726,10 @@ static void process_gslX680_data(struct gsl_ts *ts)
 	u8 id, touches;
 	u16 x, y;
 	int i = 0;
+#ifdef GSL_NOID_VERSION
 	int tmp1 = 0;
 	u8 buf[4]={0};
+#endif
 	touches = ts->touch_data[ts->dd->touch_index];
 #ifdef GSL_NOID_VERSION
     struct gsl_touch_info cinfo;
@@ -3159,7 +3163,9 @@ static void glsX680_resume_events (struct work_struct *work)
 
 static int gsl_ts_suspend(struct device *dev)
 {
+#ifdef SLEEP_CLEAR_POINT
 	struct gsl_ts *ts = dev_get_drvdata(dev);
+#endif
 	int ret =0;
 	dprintk(DEBUG_SUSPEND,"%s,start\n",__func__);
 #ifdef TPD_PROC_DEBUG
@@ -3200,7 +3206,9 @@ static int gsl_ts_suspend(struct device *dev)
 
 static int gsl_ts_resume(struct device *dev)
 {
+#ifdef SLEEP_CLEAR_POINT
 	struct gsl_ts *ts = dev_get_drvdata(dev);
+#endif
 	int ret =0 ;
   	dprintk(DEBUG_SUSPEND,"%s,start\n",__func__);
 #ifdef TPD_PROC_DEBUG
