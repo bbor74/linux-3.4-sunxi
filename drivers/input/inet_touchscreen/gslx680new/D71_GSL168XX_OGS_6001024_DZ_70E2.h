@@ -1,12 +1,12 @@
-//#define CUSTOMER_USED
-//#define CUSTOMER_INFO  "\n============================================================== \
+/*#define CUSTOMER_USED
+#define CUSTOMER_INFO  "\n============================================================== \
 												  \nProject:D71 600*1024\
 												  \nCustomer:BOM \
 												  \nTP: BOM OGS DZ\
 												  \nCharge:BOM \
 												  \nAuthor:Lei \
 												  \nDate:20141022-12:04\n"
-
+*/
 #define GSL_ID_VERSION_INFO
 unsigned int gsl_config_data_id_D71_GSL168XX_OGS_6001024_DZ_70E2[] =
 {
