@@ -1782,9 +1782,6 @@ static int __devinit gsl_ts_probe(struct i2c_client *client,
 
 	return 0;
 
-	
-error_req_irq_fail:
-    input_free_int(&(config_info.input_type), ts);  	
 error_mutex_destroy:
 	mutex_destroy(&ts->sus_lock);
 	input_free_device(ts->input);
