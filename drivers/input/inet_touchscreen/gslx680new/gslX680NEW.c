@@ -3172,7 +3172,7 @@ static int gsl_ts_suspend(struct device *dev)
 	dprintk(DEBUG_SUSPEND,"%s,start\n",__func__);
 #ifdef TPD_PROC_DEBUG
 	if(gsl_proc_flag == 1){
-		return;
+		return 0;
 	}
 #endif
 	ret = input_set_int_enable(&(config_info.input_type), 0);
@@ -3215,7 +3215,7 @@ static int gsl_ts_resume(struct device *dev)
   	dprintk(DEBUG_SUSPEND,"%s,start\n",__func__);
 #ifdef TPD_PROC_DEBUG
 	if(gsl_proc_flag == 1){
-		return;
+		return 0;
 	}
 #endif
 	gslX680_shutdown_high();
