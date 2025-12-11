@@ -1312,6 +1312,7 @@ static inline u16 join_bytes(u8 a, u8 b)
 	return ab;
 }
 
+/*
 static u32 gsl_read_interface(struct i2c_client *client, u8 reg, u8 *buf, u32 num)
 {
 	struct i2c_msg xfer_msg[2];
@@ -1333,6 +1334,7 @@ static u32 gsl_read_interface(struct i2c_client *client, u8 reg, u8 *buf, u32 nu
 
 	return i2c_transfer(client->adapter, xfer_msg, ARRAY_SIZE(xfer_msg)) == ARRAY_SIZE(xfer_msg) ? 0 : -EFAULT;
 }
+*/
 static u32 gsl_write_interface(struct i2c_client *client, const u8 reg, u8 *buf, u32 num)
 {
 	struct i2c_msg xfer_msg[1];
