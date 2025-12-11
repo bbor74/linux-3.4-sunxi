@@ -3484,7 +3484,7 @@ static int ctp_get_system_config(void)
 }
 static int __init gsl_ts_init(void)
 {
-	
+	int ret = -1;
 
 	script_item_u   val;
 	if(SCIRPT_ITEM_VALUE_TYPE_INT != script_get_item("ctp_para", "ctp_cob_gslX680_old", &val))
@@ -3504,7 +3504,6 @@ static int __init gsl_ts_init(void)
 	
 	printk("%s\n",GSLX680_IC_INFO);
 
-	int ret = -1;
 	dprintk(DEBUG_INIT,"****************************************************************\n");
 	if (input_fetch_sysconfig_para(&(config_info.input_type))) {
 		printk("%s: ctp_fetch_sysconfig_para err.\n", __func__);
