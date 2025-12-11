@@ -309,6 +309,7 @@ parse_sensor_list_info_end:
 }
 int fetch_config(struct vfe_dev *dev)
 {
+  char gpio_name[16];
 #ifdef VFE_SYS_CONFIG
   int ret;
   unsigned int i,vip_dev_index;
@@ -820,7 +821,6 @@ int fetch_config(struct vfe_dev *dev)
     dev->ccm_cfg[i]->act_slave = act_addr[i];
   }
 #endif
-  char gpio_name[16];
   for(i=0; i<dev->dev_qty; i++)
   {
     vfe_dbg(0,"dev->ccm_cfg[%d]->ccm = %s\n",i,dev->ccm_cfg[i]->ccm);
