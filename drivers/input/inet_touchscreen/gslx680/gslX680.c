@@ -1183,8 +1183,10 @@ static void process_gslX680_data(struct gsl_ts *ts)
 	u8 id, touches;
 	u16 x, y;
 	int i = 0;
+#ifdef GSL_NOID_VERSION
 	int tmp1 = 0;
 	u8 buf[4]={0};
+#endif
 	touches = ts->touch_data[ts->dd->touch_index];
 #ifdef GSL_NOID_VERSION
     struct gsl_touch_info cinfo;
@@ -1374,7 +1376,9 @@ static int gsl_ts_init_ts(struct i2c_client *client, struct gsl_ts *ts)
 {
 	struct input_dev *input_device;
 	int  rc = 0;
+#ifdef HAVE_TOUCH_KEY
 	int i= 0;
+#endif
 	printk("[GSLX680] Enter %s\n", __func__);
 	ts->dd = &devices[ts->device_id];
 
@@ -1564,7 +1568,9 @@ static void glsX680_resume_events (struct work_struct *work)
 
 static int gsl_ts_suspend(struct device *dev)
 {
+#ifdef SLEEP_CLEAR_POINT
 	struct gsl_ts *ts = dev_get_drvdata(dev);
+#endif
 	int ret =0;
 	dprintk(DEBUG_SUSPEND,"%s,start\n",__func__);
 #ifdef TPD_PROC_DEBUG
@@ -1602,7 +1608,9 @@ static int gsl_ts_suspend(struct device *dev)
 
 static int gsl_ts_resume(struct device *dev)
 {
+#ifdef SLEEP_CLEAR_POINT
 	struct gsl_ts *ts = dev_get_drvdata(dev);
+#endif
 	int ret =0 ;
   	dprintk(DEBUG_SUSPEND,"%s,start\n",__func__);
 #ifdef TPD_PROC_DEBUG
