@@ -75,6 +75,7 @@ static int get_device_info(void)
 {
         mm_segment_t old_fs;
         int ret;
+        int i = 0, j = 0, k = 0, begin = 0;
         struct file *filp = NULL;
         char src_string[FILE_LENGTH],tmp[FILE_LENGTH];
         memset(&src_string, 0, sizeof(src_string));
@@ -98,7 +99,6 @@ static int get_device_info(void)
 
         printk("camera.info:%s\n",src_string);
         //解析camera.info文件的信息
-        int i = 0, j = 0, k = 0, begin = 0;
         while(src_string[i++]){
                 if(k == 0 && begin) {//type
                      if(src_string[i-1] == '\n')
@@ -176,14 +176,15 @@ static int write_device_info(void)
 int  camera_gpio_set_range(struct gpio_config  *gpio, __u32 i)
 {
 #if 1
+	char pin_name[64];
+	unsigned long config;
+
 	if(i > 1)
 	{
 		printk("group set not support yet\n");
 		return -ECFGPIN;
 	}
 
-	char pin_name[64];
-	unsigned long config;
 	if(IS_AXP_PIN(gpio->gpio)){
 	/*axp pin config pin attributes individually*/
 		sunxi_gpio_to_name(gpio->gpio, pin_name);
@@ -783,6 +784,9 @@ static __s32 camera_same_i2c_id_detect(__camera_detector_t *camera_detector,
     __u32 i, j;
 	__u32 camera_detected = 0;
     __s32 ret = 0;
+	script_item_u   val;
+	script_item_value_type_e	type;
+	int pwdn_change;
 
     detect_print("camera_same_i2c_id_detect!!\n");
     detect_print("camera_detector->num = %d,camera_list_size = %d!!\n",camera_detector->num,camera_list_size);
@@ -900,9 +904,6 @@ static __s32 camera_same_i2c_id_detect(__camera_detector_t *camera_detector,
 	detect_print("camera_detector->camera[0].name=%s,camera_detector->camera[1].name=%s\n",camera_detector->camera[0].name,camera_detector->camera[1].name);
 
 	//d78 double camera, need exchange standby_pin wzh 20140519
-		script_item_u   val;
- 		script_item_value_type_e	type;
- 		int pwdn_change;
 		type = script_get_item("csi0","fb_pwdn_change", &val);
 		if (SCIRPT_ITEM_VALUE_TYPE_INT != type) {
 			pwdn_change = 0;
