@@ -665,7 +665,7 @@ static __s32 camera_get_board_info(__camera_detector_t *camera_detector)
 
 return 0;
 }
-
+/*
 static __s32 camera_init_module_list(__u32 camera_list_size)
 {
     __u32 i;
@@ -681,7 +681,7 @@ static __s32 camera_init_module_list(__u32 camera_list_size)
 
     return 0;
 }
-
+*/
 static __s32 camera_diff_i2c_id_detect(__camera_detector_t *camera_detector, 
                                                 __camera_list_t *camera_list,
                                                 __u32 camera_list_size)
