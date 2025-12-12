@@ -317,11 +317,11 @@ static __s32 camera_request_clk(__u32 csi_index,
 #endif
 }
 
-static void camera_release_clk(struct clk **csi_module_clk)
+static void camera_release_clk(struct clk *csi_module_clk)
 {
     clk_disable(csi_module_clk);
     clk_put(csi_module_clk);
-    *csi_module_clk = NULL;
+    csi_module_clk = NULL;
 }
 
 static __s32 camera_mclk_open(__camera_detector_t *camera_detector)
