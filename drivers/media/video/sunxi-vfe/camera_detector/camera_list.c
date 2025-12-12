@@ -3752,7 +3752,7 @@ static __s32 camera_detect_gc0311(__u32 list_index, struct i2c_adapter *i2c_adap
     
     return 0;
 }
-
+#if 0
 #define __SIV120D__
 
 static void camera_pwr_on_siv120d(__u32 list_index, __camera_info_t *camera_info)
@@ -3877,7 +3877,7 @@ static __s32 camera_detect_siv120d(__u32 list_index, struct i2c_adapter *i2c_ada
 
     return 0;
 }
-
+#endif
 #define __BF3920__
 
 static void camera_pwr_on_bf3920(__u32 list_index, __camera_info_t *camera_info)
