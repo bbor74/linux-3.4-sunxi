@@ -77,7 +77,7 @@ static int get_device_info(void)
         int ret;
         int i = 0, j = 0, k = 0, begin = 0;
         struct file *filp = NULL;
-        char src_string[FILE_LENGTH],tmp[FILE_LENGTH];
+        char src_string[FILE_LENGTH];//,tmp[FILE_LENGTH]
         memset(&src_string, 0, sizeof(src_string));
         filp = filp_open(FILE_DIR,O_RDWR | O_CREAT, 0666);
         if(!filp || IS_ERR(filp)){
