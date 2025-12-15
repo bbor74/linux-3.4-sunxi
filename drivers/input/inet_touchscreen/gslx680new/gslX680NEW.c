@@ -1050,7 +1050,7 @@ static int getIndex(int num)
 			break;
 		case 70112:
 			index = 55;
-			printk("D701EB2C_GSL1680E_PG_DPT_800480\n");
+			printk("D701EB2C_GSL1680E_PG_INET_800480\n");
 			break;	
 		case 101:
 			index = 57;
