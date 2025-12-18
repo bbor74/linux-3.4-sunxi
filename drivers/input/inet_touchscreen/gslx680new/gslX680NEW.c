@@ -357,7 +357,7 @@ static u8 gsl_proc_flag = 0;
 #define GPIOF_DAT			0x7f0080a4
 #define GPIOF_PUD			0x7f0080a8
 
-//#define GSL_NOID_VERSION
+#define GSL_NOID_VERSION
 static char cfg_adjust_flag = 0;
 static int cfg_adjust_used_id = 0;
 
