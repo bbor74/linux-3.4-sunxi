@@ -310,7 +310,7 @@ static struct i2c_client *gsl_client = NULL;
 
 //mbg --
 
-static int ctp_cob_gslX680_old = 0;
+//static int ctp_cob_gslX680_old = 0;
 #define FOR_TSLIB_TEST
 //#define GSL_TIMER
 //#define PRINT_POINT_INFO 
@@ -3482,7 +3482,7 @@ static int ctp_get_system_config(void)
 static int __init gsl_ts_init(void)
 {
 	int ret = -1;
-
+/*
 	script_item_u   val;
 	if(SCIRPT_ITEM_VALUE_TYPE_INT != script_get_item("ctp_para", "ctp_cob_gslX680_old", &val))
 	{
@@ -3498,7 +3498,7 @@ static int __init gsl_ts_init(void)
 		printk("gslX680 old algorithm\n");
 		return -ENODEV;
 	}
-	
+*/
 	printk("%s\n",GSLX680_IC_INFO);
 
 	dprintk(DEBUG_INIT,"****************************************************************\n");
