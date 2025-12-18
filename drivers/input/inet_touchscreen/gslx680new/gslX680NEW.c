@@ -2731,10 +2731,10 @@ static void process_gslX680_data(struct gsl_ts *ts)
 #ifdef GSL_NOID_VERSION
 	int tmp1 = 0;
 	u8 buf[4]={0};
+    struct gsl_touch_info cinfo;
 #endif
 	touches = ts->touch_data[ts->dd->touch_index];
 #ifdef GSL_NOID_VERSION
-    struct gsl_touch_info cinfo;
 	cinfo.finger_num = touches;
 	//printk("tp-gsl  finger_num = %d\n",cinfo.finger_num);
 	for(i = 0; i < (touches < MAX_CONTACTS ? touches : MAX_CONTACTS); i ++)
