@@ -83,7 +83,7 @@ static	unsigned int id_first_coe;
 static	unsigned int id_speed_coe;
 static	unsigned int id_static_coe;
 static	unsigned int average;
-static	unsigned int soft_average;
+//static	unsigned int soft_average;
 static	unsigned int report_delay;
 static	unsigned int delay_key;
 static	unsigned int report_ahead;
@@ -127,7 +127,7 @@ static	unsigned int edge_first;
 static	unsigned int edge_first_coe;
 static	unsigned int stretch_mult;
 static	unsigned int point_corner;
-
+/*
 static void SortBubble(int t[], int size)
 {
 	int temp = 0;
@@ -142,7 +142,7 @@ static void SortBubble(int t[], int size)
 		}
 	}
 }
-
+*/
 static int Sqrt(int d)
 {
 	int ret = 0;
