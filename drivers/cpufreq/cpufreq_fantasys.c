@@ -122,8 +122,8 @@ static unsigned int get_rq_avg_cpu(int cpu)
  */
 #if defined(CONFIG_ARCH_SUN8IW3P1)
 static int hotplug_rq_def[NR_CPUS][2] = {
-    {0   , 1500},
-    {700 , 0   },
+    {0   , 2500},
+    {2000 , 0   },
 };
 #elif defined(CONFIG_ARCH_SUN8IW1P1) || defined(CONFIG_ARCH_SUN8IW5P1)
 static int hotplug_rq_def[NR_CPUS][2] = {
