@@ -6,7 +6,7 @@
 #include<linux/fs.h>
 #include<linux/string.h>
 #include<asm/uaccess.h>
-#define FILE_DIR                "data/camera.info"
+#define FILE_DIR                "cache/camera.info"
 #define FILE_LENGTH             (1024)
 #define STRING_LENGTH           (128)
 #define YUV_30W_SENSOR "gc0308"
