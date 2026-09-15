@@ -13,8 +13,8 @@ wm97xx-ts-y := wm97xx-core.o
 #obj-$(CONFIG_INPUT_TOUCHSCREEN)   += gt9xxf/
 #obj-$(CONFIG_INPUT_TOUCHSCREEN)    += ft5x/
 
-obj-m    += gslx680new/
-obj-m     += gslx680/
+obj-$(CONFIG_INPUT_INET_TOUCHSCREEN)    += gslx680new/
+obj-$(CONFIG_INPUT_INET_TOUCHSCREEN)     += gslx680/
 
 #obj-m    += ft5x02/
 #obj-m    += ft5402/
