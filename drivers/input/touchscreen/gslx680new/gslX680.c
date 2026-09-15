@@ -920,7 +920,8 @@ static int gsl_config_read_proc(char *page, char **start, off_t off, int count, 
 			tmp=(gsl_data_proc[5]<<8) | gsl_data_proc[4];
 			ptr +=sprintf(ptr,"gsl_config_data_id[%u] = ",tmp);
 			if(tmp>=0&&tmp<256)
-				ptr +=sprintf(ptr,"%d\n",gsl_config_data_id_d7[tmp]); 
+				//ptr +=sprintf(ptr,"%d\n",gsl_config_data_id_d7[tmp]); 
+				ptr +=sprintf(ptr,"%d\n",gslX680_config_data[fw_index][tmp]); 
 #endif
 		}
 		else 
