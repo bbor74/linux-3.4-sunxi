@@ -70,6 +70,7 @@
 #include "gslX680_m7300.h"
 #include "gslX680_jinghong.h"
 #include "gsl1680e_d7.h"
+#include "gsl1680e_700.h"
 struct gslX680_fw_array {
 	const char* name;
 	unsigned int size;
@@ -87,6 +88,7 @@ struct gslX680_fw_array {
 	{"gsl_m7300"  ,  ARRAY_SIZE(GSLX680_FW_M7300),GSLX680_FW_M7300},
 	{"gsl_jinghong"  ,  ARRAY_SIZE(GSLX680_FW_JINGHONG),GSLX680_FW_JINGHONG},
 	{"gsl1680_d7" , ARRAY_SIZE(GSLX680_FW_D7),GSLX680_FW_D7},
+	{"gsl1680e_700" , ARRAY_SIZE(GSL1680E_FW_700),GSL1680E_FW_700},
 };
 
 unsigned int *gslX680_config_data[16] = {
@@ -102,6 +104,7 @@ unsigned int *gslX680_config_data[16] = {
     gsl_config_data_id_m7300,
     gsl_config_data_id_jinghong,
 	gsl_config_data_id_d7,
+	gsl_config_data_id_700,
 };
 
 #define FOR_TSLIB_TEST
