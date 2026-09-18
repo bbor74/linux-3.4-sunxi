@@ -1231,12 +1231,12 @@ static struct device camera_detector_device = {
 static int __init camera_detector_init(void) {
 	int err = 0;
     __u32 camera_list_size;
-    char *camera_list_para      = "camera_list_para";
-    char *camera_list_para_used = "camera_list_para_used";
+//    char *camera_list_para      = "camera_list_para";
+//    char *camera_list_para_used = "camera_list_para_used";
     
 	detect_print("camera detect driver init\n");
     
-    if (!camera_sub_name_exist(camera_list_para, camera_list_para_used)) {
+/*    if (!camera_sub_name_exist(camera_list_para, camera_list_para_used)) {
             __s32 value, ret;
 
         ret = camera_get_sysconfig(camera_list_para, camera_list_para_used, &value, 1);
@@ -1252,7 +1252,7 @@ static int __init camera_detector_init(void) {
 
         goto exit;
     }
-        
+*/
 	camera_detector_device.groups = dev_attr_groups;
 	err = device_register(&camera_detector_device);
 	if (err) {
