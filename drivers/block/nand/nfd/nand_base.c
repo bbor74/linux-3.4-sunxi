@@ -327,8 +327,12 @@ int __init nand_init(void)
 		printk("[NAND]run on A23\n");
 	#endif
 
-	#ifdef SUN9IW1P1
+	#ifdef SUN8IW5P1
 		printk("[NAND]run on A33\n");
+	#endif
+
+	#ifdef SUN9IW1P1
+		printk("[NAND]run on A80\n");
 	#endif
 
 	#ifdef SUN8IW1P1
