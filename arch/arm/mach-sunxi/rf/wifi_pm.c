@@ -18,9 +18,17 @@ static char* wifi_mod[] = {" ",
 	"rtl8188eu",  /* 3 - RTL8188EU*/
 	"rtl8723au",  /* 4 - RTL8723AU*/
 	"rtl8723bs",  /* 5 - RTL8723BS*/
+#if CONFIG_SUN8I_WIFI_V1
+	"esp8089",    /* 6 - ESP8089*/
+#else
 	"rtl8189es",  /* 6 - rtl8189es*/
+#endif
 	"ap6476",     /* 7 - AP6476*/
+#if CONFIG_SUN8I_WIFI_V1
+	"rtl8189es",  /* 8 - rtl8189es*/
+#else
 	"esp8089",    /* 8 - ESP8089*/
+#endif
 };
 
 int wifi_pm_get_mod_type(void)
@@ -180,14 +188,24 @@ static int __devinit wifi_pm_probe(struct platform_device *pdev)
 		case 5: /* RTL8723BS */
 			rtl8723bs_gpio_init();
 			break;
+#if CONFIG_SUN8I_WIFI_V1
+		case 6: /* ESP8089 */
+			esp8089_gpio_init();
+#else
 		case 6: /* rtl8189es */
 			rtl8189es_gpio_init();
+#endif
 			break;
         case 7: /* AP6476 */
     	    ap6xxx_gpio_init();
 			break;
+#if CONFIG_SUN8I_WIFI_V1
+        case 8: /* rtl8189es */
+		    rtl8189es_gpio_init();
+#else
         case 8: /* ESP8089 */
 		    esp8089_gpio_init();
+#endif
 			break;
 		default:
 			wifi_pm_msg("wrong sdio module select %d !\n", ops->module_sel.val);

@@ -146,6 +146,14 @@ config SUN8I_CCI
 	default n
 	help
 	  Enable Cache Coherent Interconnect support
+
+config SUN8I_WIFI_V1
+	bool "use WIFI configuration variant 1"
+	depends on NET
+	default n
+	help
+	  use WIFI configuration variant 1
+
 endif
 
 #
