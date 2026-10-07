@@ -994,7 +994,9 @@ __s32  SCN_AnalyzeNandSystem(void)
     //set the nand flash physical architecture parameter
     NandStorageInfo.BankCntPerChip = tmpNandPhyInfo.DieCntPerChip;
     NandStorageInfo.DieCntPerChip = tmpNandPhyInfo.DieCntPerChip;
-    //NandStorageInfo.PlaneCntPerDie = 2; // fix by bbor74
+#ifdef CONFIG_ARCH_SUN8IW5P1
+    NandStorageInfo.PlaneCntPerDie = 2;
+#endif
     NandStorageInfo.SectorCntPerPage = tmpNandPhyInfo.SectCntPerPage;
     NandStorageInfo.PageCntPerPhyBlk = tmpNandPhyInfo.PageCntPerBlk;
     NandStorageInfo.BlkCntPerDie = tmpNandPhyInfo.BlkCntPerDie;
