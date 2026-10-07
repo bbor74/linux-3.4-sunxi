@@ -34,6 +34,7 @@ obj-m			+= ov12830.o
 obj-m			+= ov8825.o
 obj-m			+= ov8850.o
 obj-m			+= gc2155.o
+obj-m			+= gc0312.o
 obj-m			+= ov8858.o
 obj-m			+= ov13850.o
 obj-m			+= imx214.o
