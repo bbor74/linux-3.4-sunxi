@@ -242,7 +242,7 @@ config CPU_FREQ_GOV_CONSERVATIVE
 config CPU_FREQ_GOV_FANTASYS
        tristate "'fantasys' cpufreq policy governor"
        depends on SMP
-       depends on ARCH_SUN8IW1 || ARCH_SUN8IW3
+       depends on ARCH_SUN8IW1 || ARCH_SUN8IW3 || ARCH_SUN8IW5
        select CPU_FREQ_TABLE
        help
          'fantasys' - This driver adds a dynamic cpufreq policy governor.
