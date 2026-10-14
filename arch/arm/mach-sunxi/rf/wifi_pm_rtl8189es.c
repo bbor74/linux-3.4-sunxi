@@ -86,27 +86,25 @@ exit:
 
 static int rtl8189es_gpio_ctrl(char* name, int level)
 {
-	int i = 0;	
-	int gpio = 0;
-	char * gpio_name[1] = {"rtl8189es_shdn"};
+	int ret = 0;
+	unsigned long flags = 0;
 
-	for (i = 0; i < 1; i++) {
-		if (strcmp(name, gpio_name[i]) == 0) {
-			switch (i)
-			{
-				case 0: /*rtl8189es_shdn*/
-					gpio = rtl8189es_shdn;
-					break;
-				default:
-					rtl8189es_msg("no matched gpio.\n");
-			}
-			break;
-		}
+	if (1==level)
+		flags = GPIOF_OUT_INIT_HIGH;
+	else
+		flags = GPIOF_OUT_INIT_LOW;
+
+	ret = gpio_request_one(rtl8189es_shdn, flags, NULL);
+	if (ret) {
+		rtl8189es_msg("failed to set gpio %s to %d !\n", name, level);
+		return -1;
+	} else {
+		gpio_free(rtl8189es_shdn);
+		rtl8189es_msg("succeed to set gpio %s to %d !\n", name, level);
 	}
 
-  __gpio_set_value(gpio, level);
-  printk("gpio %s set val %d, act val %d\n", name, level, __gpio_get_value(gpio));
-	
+	rtl8189es_powerup = level;
+
 	return 0;
 }
 
@@ -126,16 +124,23 @@ static void rtl8189es_standby(int instadby)
 
 static void rtl8189es_power(int mode, int *updown)
 {
-  if (mode) {
-		if (*updown) {
+    if (mode) {
+        if (*updown) {
+			rtl8189es_module_power(1);
+			udelay(500);
 			rtl8189es_gpio_ctrl("rtl8189es_shdn", 1);
-			mdelay(100);
-		} else {
+        } else {
 			rtl8189es_gpio_ctrl("rtl8189es_shdn", 0);
-			mdelay(100);
-		}
-		rtl8189es_msg("sdio wifi power state: %s\n", *updown ? "on" : "off");
-	}
+			rtl8189es_module_power(0);
+        }
+        rtl8189es_msg("sdio wifi power state: %s\n", *updown ? "on" : "off");
+    } else {
+        if (rtl8189es_powerup)
+            *updown = 1;
+        else
+            *updown = 0;
+		rtl8189es_msg("sdio wifi power state: %s\n", rtl8189es_powerup ? "on" : "off");
+    }
 }
 
 void rtl8189es_gpio_init(void)
@@ -156,7 +161,7 @@ void rtl8189es_gpio_init(void)
 
   type = script_get_item(wifi_para, "wifi_power_ext1", &val);
 	if (SCIRPT_ITEM_VALUE_TYPE_STR != type) {
-		rtl8189es_msg("failed to fetch wifi_power\n");
+		rtl8189es_msg("failed to fetch wifi_power_ext1\n");
 	} else {
     axp_name[1] = val.str;
     rtl8189es_msg("module power ext1 name %s\n", axp_name[1]);
@@ -164,7 +169,7 @@ void rtl8189es_gpio_init(void)
   
   type = script_get_item(wifi_para, "wifi_power_ext2", &val);
 	if (SCIRPT_ITEM_VALUE_TYPE_STR != type) {
-		rtl8189es_msg("failed to fetch wifi_power\n");
+		rtl8189es_msg("failed to fetch wifi_power_ext2\n");
 	} else {
     axp_name[2] = val.str;
     rtl8189es_msg("module power ext2 name %s\n", axp_name[2]);
@@ -183,8 +188,7 @@ void rtl8189es_gpio_init(void)
 	ops->standby 	  = rtl8189es_standby;
 	ops->power 		  = rtl8189es_power;
 
-	rtl8189es_module_power(1);
-	mdelay(100);
-	rtl8189es_gpio_ctrl("rtl8189es_shdn", 0);
-
+	// force to disable wifi power in system booting,
+	// make sure wifi power is down when system start up
+	rtl8189es_module_power(0);
 }
