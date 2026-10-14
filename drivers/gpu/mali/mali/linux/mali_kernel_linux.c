@@ -117,7 +117,11 @@ static u32 mali_cpu_clock_last_value[8] = {0,};
 EXPORT_SYMBOL(mali_set_user_setting);
 EXPORT_SYMBOL(mali_get_user_setting);
 
+#if CONFIG_USE_MALI_DEV_NAME
+static char mali_dev_name[] = "mali";
+#else
 static char mali_dev_name[] = "mali0"; /* should be const, but the functions we call requires non-cost */
+#endif
 
 /* This driver only supports one Mali device, and this variable stores this single platform device */
 struct platform_device *mali_platform_device = NULL;

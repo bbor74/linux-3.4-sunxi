@@ -79,3 +79,10 @@ config MALI_PMU_PARALLEL_POWER_UP
 	  powering up domains one by one, with a slight delay in between. Powering on all power
 	  domains at the same time may cause peak currents higher than what some systems can handle.
 	  These systems must not enable this option.
+
+config USE_MALI_DEV_NAME
+	bool "Use mali as dev name instead mali0"
+	depends on MALI400
+	default n
+	---help---
+	  If you select Y, mali_dev_name will be mali, otherwise mali0.
