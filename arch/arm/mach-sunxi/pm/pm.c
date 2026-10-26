@@ -88,6 +88,7 @@ static struct kobject *aw_pm_kobj;
 __u32 debug_mask = PM_STANDBY_TEST; //PM_STANDBY_PRINT_STANDBY | PM_STANDBY_PRINT_RESUME| PM_STANDBY_ENABLE_JTAG;
 static int suspend_freq = SUSPEND_FREQ;
 static int suspend_delay_ms = SUSPEND_DELAY_MS;
+static unsigned int disable_alarm_wakeup = 1;
 static unsigned long time_to_wakeup = 0;
 
 extern char *standby_bin_start;
@@ -819,6 +820,10 @@ static int aw_early_suspend(void)
 	else
 		super_standby_para_info.pextended_standby = NULL;
 #endif
+	if (disable_alarm_wakeup) {
+		super_standby_para_info.event &= ~(CPUS_WAKEUP_ALM0 |
+				CPUS_WAKEUP_ALM1);
+	}
 
 	super_standby_para_info.timeout = time_to_wakeup;
 	if(0 < super_standby_para_info.timeout){
@@ -1748,6 +1753,7 @@ static void __exit aw_pm_exit(void)
 module_param_named(suspend_freq, suspend_freq, int, S_IRUGO | S_IWUSR);
 module_param_named(suspend_delay_ms, suspend_delay_ms, int, S_IRUGO | S_IWUSR);
 module_param_named(standby_mode, standby_mode, int, S_IRUGO | S_IWUSR);
+module_param_named(disable_alarm_wakeup, disable_alarm_wakeup, uint, S_IRUGO | S_IWUSR);
 module_param_named(time_to_wakeup, time_to_wakeup, ulong, S_IRUGO | S_IWUSR);
 module_init(aw_pm_init);
 module_exit(aw_pm_exit);
