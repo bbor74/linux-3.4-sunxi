@@ -2045,9 +2045,9 @@ CONFIG_FB=y
 #
 # Video support for sunxi
 #
-CONFIG_FB_SUNXI=m
+CONFIG_FB_SUNXI=y
 # CONFIG_FB_CONSOLE_SUNXI is not set
-CONFIG_LCD_SUNXI=m
+CONFIG_LCD_SUNXI=y
 # CONFIG_FB_S1D13XXX is not set
 # CONFIG_FB_SMSCUFX is not set
 # CONFIG_FB_UDL is not set
